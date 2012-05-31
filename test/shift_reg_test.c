@@ -22,8 +22,8 @@ unsigned char GetBit(unsigned char x, unsigned char k)
 #define SR_DDR		DDRA
 
 #define SR_SER		PA0
-#define SR_SRCLK	PA1
-#define SR_RCLK		PA2
+#define SR_RCLK	    PA1
+#define SR_SRCLK    PA2
 
 void SRSerHigh()
 {
