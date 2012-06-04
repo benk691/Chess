@@ -1,3 +1,8 @@
+#ifndef __STRUCTS_H__
+#define __STRUCTS_H__
+
+#include "general.h"
+
 struct Time
 {
     unsigned char min;
@@ -7,3 +12,22 @@ struct Time
         : min(m), sec(s)
     {}
 };
+
+struct ShiftReg
+{
+	unsigned char id;
+	
+	ShiftReg(unsigned char i = 0)
+		: id(i)
+	{}
+	
+	void SerHigh()
+	{
+		switch(id)
+		{
+			case ROW_ID		:	
+		}
+	}
+};
+
+#endif //__STRUCTS_H__

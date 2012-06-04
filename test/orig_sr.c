@@ -55,151 +55,60 @@ struct ShiftReg
 };
 */
 
-#define SR1_PORT	PORTA
-#define SR1_DDR		DDRA
+#define SR_ROW_PORT		PORTA
+#define SR_ROW_DDR		DDRA
 
-#define SR1_SER		PA0
-#define SR1_RCLK	PA1
-#define SR1_SRCLK   PA2
+#define SR_ROW_SER		PA0
+#define SR_ROW_RCLK		PA1
+#define SR_ROW_SRCLK	PA2
 
-#define SR2_PORT	PORTB
-#define SR2_DDR		DDRB
+#define SR_COL_PORT		PORTB
+#define SR_COL_DDR		DDRB
 
-#define SR2_SER		PB0
-#define SR2_RCLK	PB1
-#define SR2_SRCLK   PB2
+#define SR_COL_SER		PB0
+#define SR_COL_RCLK		PB1
+#define SR_COL_SRCLK	PB2
 
-void SR1SerHigh()
+void SR_RowSerHigh()
 {
-	SR1_PORT |= (1 << SR1_SER);
+	SR_ROW_PORT |= (1 << SR_ROW_SER);
 }	
 
-void SR1SerLow()
+void SR_RowSerLow()
 {
-	SR1_PORT &= (~(1 << SR1_SER));
+	SR_ROW_PORT &= (~(1 << SR_ROW_SER));
 }
 
-void SR2SerHigh()
+void SR_ColSerHigh()
 {
-	SR2_PORT |= (1 << SR2_SER);
+	SR_COL_PORT |= (1 << SR_COL_SER);
 }	
 
-void SR2SerLow()
+void SR_ColSerLow()
 {
-	SR2_PORT &= (~(1 << SR2_SER));
+	SR_COL_PORT &= (~(1 << SR_COL_SER));
 }
 
 void SRInit()
 {
 	// Make the Serial, shift register clock, register clock lines output
-	SR1_DDR |= ((1 << SR1_SRCLK) | (1 << SR1_RCLK) | (1 << SR1_SER));
-	SR2_DDR |= ((1 << SR2_SRCLK) | (1 << SR2_RCLK) | (1 << SR2_SER));
+	SR_ROW_DDR |= ((1 << SR_ROW_SRCLK) | (1 << SR_ROW_RCLK) | (1 << SR_ROW_SER));
+	SR_COL_DDR |= ((1 << SR_COL_SRCLK) | (1 << SR_COL_RCLK) | (1 << SR_COL_SER));
 }
 
-void SR1Pulse()
+void SR_RowPulse()
 {
-	SR1_PORT |= (1 << SR1_SRCLK); //High
+	SR_ROW_PORT |= (1 << SR_ROW_SRCLK); //High
 	
-	SR1_PORT &= (~(1 << SR1_SRCLK)); // Low
+	SR_ROW_PORT &= (~(1 << SR_ROW_SRCLK)); // Low
 }
 
-void SR1Latch()
+void SR_RowLatch()
 {
-	SR1_PORT |= (1 << SR1_RCLK); //High
+	SR_ROW_PORT |= (1 << SR_ROW_RCLK); //High
 	_delay_loop_1(1);
 	
-	SR1_PORT &= (~(1 << SR1_RCLK)); // Low
-	_delay_loop_1(1);
-}
-
-/*
-Main High level function to write a single byte to
-Output shift register. 
-
-Arguments:
-   single byte to write to the IC
-
-Returns:
-   NONE
-
-Description:
-   The byte is serially transfered to shift register
-   and then latched. The byte is then available on
-   output line Q0 to Q7 of the IC.
-*/
-void SR1Write8(unsigned char data)
-{
-   //Send each 8 bits serially
-
-   //Order is MSB first
-   for(unsigned char i = 0; i < 8; i++)
-   {
-      //Output the data on DS line according to the
-      //Value of MSB
-      if(data & 0x80)
-      {
-         //MSB is 1 so output high
-         SR1SerHigh();
-      }
-      else
-      {
-         //MSB is 0 so output high
-         SR1SerLow();
-      }
-
-      SR1Pulse();  //Pulse the Clock line
-      data = data << 1;  //Now bring next bit at MSB position
-
-   }
-
-   //Now all 8 bits have been transferred to shift register
-   //Move them to output latch at one
-   SR1Latch();
-}
-
-void SR1Write16(unsigned long data)
-{
-   //Send each 8 bits serially
-
-   //Order is MSB first
-   for(unsigned char i = 0; i < 16; i++)
-   {
-      //Output the data on DS line according to the
-      //Value of MSB
-      if(data & 0x8000)
-      {
-         //MSB is 1 so output high
-         SR1SerHigh();
-      }
-      else
-      {
-         //MSB is 0 so output high
-         SR1SerLow();
-      }
-
-      SR1Pulse();  //Pulse the Clock line
-      data = data << 1;  //Now bring next bit at MSB position
-
-   }
-
-   //Now all 8 bits have been transferred to shift register
-   //Move them to output latch at one
-   SR1Latch();
-}
-
-void SR2Pulse()
-{
-	SR2_PORT |= (1 << SR2_SRCLK); //High
-	
-	SR2_PORT &= (~(1 << SR2_SRCLK)); // Low
-}
-
-void SR2Latch()
-{
-	SR2_PORT |= (1 << SR2_RCLK); //High
-	_delay_loop_1(1);
-	
-	SR2_PORT &= (~(1 << SR2_RCLK)); // Low
+	SR_ROW_PORT &= (~(1 << SR_ROW_RCLK)); // Low
 	_delay_loop_1(1);
 }
 
@@ -218,7 +127,7 @@ Description:
    and then latched. The byte is then available on
    output line Q0 to Q7 of the IC.
 */
-void SR2Write8(unsigned char data)
+void SR_RowWrite8(unsigned char data)
 {
    //Send each 8 bits serially
 
@@ -230,25 +139,25 @@ void SR2Write8(unsigned char data)
       if(data & 0x80)
       {
          //MSB is 1 so output high
-         SR2SerHigh();
+         SR_RowSerHigh();
       }
       else
       {
          //MSB is 0 so output high
-         SR2SerLow();
+         SR_RowSerLow();
       }
 
-      SR2Pulse();  //Pulse the Clock line
+      SR_RowPulse();  //Pulse the Clock line
       data = data << 1;  //Now bring next bit at MSB position
 
    }
 
    //Now all 8 bits have been transferred to shift register
    //Move them to output latch at one
-   SR2Latch();
+   SR_RowLatch();
 }
 
-void SR2Write16(unsigned long data)
+void SR_RowWrite16(unsigned long data)
 {
    //Send each 8 bits serially
 
@@ -260,22 +169,113 @@ void SR2Write16(unsigned long data)
       if(data & 0x8000)
       {
          //MSB is 1 so output high
-         SR2SerHigh();
+         SR_RowSerHigh();
       }
       else
       {
          //MSB is 0 so output high
-         SR2SerLow();
+         SR_RowSerLow();
       }
 
-      SR2Pulse();  //Pulse the Clock line
+      SR_RowPulse();  //Pulse the Clock line
       data = data << 1;  //Now bring next bit at MSB position
 
    }
 
    //Now all 8 bits have been transferred to shift register
    //Move them to output latch at one
-   SR2Latch();
+   SR_RowLatch();
+}
+
+void SR_ColPulse()
+{
+	SR_COL_PORT |= (1 << SR_COL_SRCLK); //High
+	
+	SR_COL_PORT &= (~(1 << SR_COL_SRCLK)); // Low
+}
+
+void SR_ColLatch()
+{
+	SR_COL_PORT |= (1 << SR_COL_RCLK); //High
+	_delay_loop_1(1);
+	
+	SR_COL_PORT &= (~(1 << SR_COL_RCLK)); // Low
+	_delay_loop_1(1);
+}
+
+/*
+Main High level function to write a single byte to
+Output shift register. 
+
+Arguments:
+   single byte to write to the IC
+
+Returns:
+   NONE
+
+Description:
+   The byte is serially transfered to shift register
+   and then latched. The byte is then available on
+   output line Q0 to Q7 of the IC.
+*/
+void SR_ColWrite8(unsigned char data)
+{
+   //Send each 8 bits serially
+
+   //Order is MSB first
+   for(unsigned char i = 0; i < 8; i++)
+   {
+      //Output the data on DS line according to the
+      //Value of MSB
+      if(data & 0x80)
+      {
+         //MSB is 1 so output high
+         SR_ColSerHigh();
+      }
+      else
+      {
+         //MSB is 0 so output high
+         SR_ColSerLow();
+      }
+
+      SR_ColPulse();  //Pulse the Clock line
+      data = data << 1;  //Now bring next bit at MSB position
+
+   }
+
+   //Now all 8 bits have been transferred to shift register
+   //Move them to output latch at one
+   SR_ColLatch();
+}
+
+void SR_ColWrite16(unsigned long data)
+{
+   //Send each 8 bits serially
+
+   //Order is MSB first
+   for(unsigned char i = 0; i < 16; i++)
+   {
+      //Output the data on DS line according to the
+      //Value of MSB
+      if(data & 0x8000)
+      {
+         //MSB is 1 so output high
+         SR_ColSerHigh();
+      }
+      else
+      {
+         //MSB is 0 so output high
+         SR_ColSerLow();
+      }
+
+      SR_ColPulse();  //Pulse the Clock line
+      data = data << 1;  //Now bring next bit at MSB position
+
+   }
+
+   //Now all 8 bits have been transferred to shift register
+   //Move them to output latch at one
+   SR_ColLatch();
 }
 
 /*
@@ -315,23 +315,23 @@ int main(void)
     {
 		for(int i = 0; i < size1; i++)
 		{
-			SR1Write16(s1_numb[i]);
+			SR_RowWrite16(s1_numb[i]);
 			Wait();                 //Wait 
 		}
-		SR1Write16(0x0000);
+		SR_RowWrite16(0x0000);
 		for(int i = 0; i < size2; i++)
 		{
-			SR2Write16(s2_numb[i]);
+			SR_ColWrite16(s2_numb[i]);
 			Wait();                 //Wait 
 		}
-		SR2Write16(0x0000);
+		SR_ColWrite16(0x0000);
 		for(int i = 0; i < size1; i++)
 		{
-			SR1Write16(s1_numb[i]);
-			SR2Write16(s2_numb[i]);
+			SR_RowWrite16(s1_numb[i]);
+			SR_ColWrite16(s2_numb[i]);
 			Wait();                 //Wait 
 		}
-		SR1Write16(0x0000);
-		SR2Write16(0x0000);
+		SR_RowWrite16(0x0000);
+		SR_ColWrite16(0x0000);
     }
 }

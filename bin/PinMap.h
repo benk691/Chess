@@ -1,6 +1,24 @@
 #ifndef __PINMAP_H__
 #define __PINMAP_H__
 
+/********************* Shift Register Pin Map *********************/
+
+#define SR_ROW_PORT		PORTA
+#define SR_ROW_DDR		DDRA
+
+#define SR_ROW_SER		PA0
+#define SR_ROW_RCLK		PA1
+#define SR_ROW_SRCLK	PA2
+
+#define SR_COL_PORT		PORTB
+#define SR_COL_DDR		DDRB
+
+#define SR_COL_SER		PB0
+#define SR_COL_RCLK		PB1
+#define SR_COL_SRCLK	PB2
+
+/******************************************************************/
+
 /********************* Keypad Pin Map *********************/
 
 #define KEYPAD_PORT PORTC
