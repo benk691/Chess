@@ -5,7 +5,7 @@
 #include "general.h"
 #include "PinMap.h"
 
-enum SR_RowStates { SR_RowWait, SR_RowWrite, SR_RowLatchHigh, SR_RowLatchLow } SR_RowState;
+enum SR_RowStates { SR_RowInit, SR_RowWait, SR_RowWrite, SR_RowLatchHigh, SR_RowLatchLow } SR_RowState;
 
 int SR_RowTick(int state)
 {
@@ -15,8 +15,12 @@ int SR_RowTick(int state)
     // Transitions
     switch(state)
     {
-        case -1     :   state = SR_RowWait;
+        case -1     :   SR_RowRdy = 0;
+                        state = SR_RowInit;
                         break;
+        
+        case SR_RowInit :   state = SR_RowWait;
+                            break;
 
         case SR_RowWait :   if(!SR_RowSend)
                             {
@@ -49,6 +53,10 @@ int SR_RowTick(int state)
     switch(state)
     {
         case -1     :   break;
+
+        case SR_RowInit :   SR_RowSend = 0;
+                            SR_RowRdy = 1;
+                            break;
 
         case SR_RowWait :   break;
         

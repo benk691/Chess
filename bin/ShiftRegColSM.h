@@ -5,7 +5,7 @@
 #include "general.h"
 #include "PinMap.h"
 
-enum SR_ColStates { SR_ColWait, SR_ColWrite, SR_ColLatchHigh, SR_ColLatchLow } SR_ColState;
+enum SR_ColStates { SR_ColInit, SR_ColWait, SR_ColWrite, SR_ColLatchHigh, SR_ColLatchLow } SR_ColState;
 
 int SR_ColTick(int state)
 {
@@ -15,8 +15,12 @@ int SR_ColTick(int state)
     // Transitions
     switch(state)
     {
-        case -1     :   state = SR_ColWait;
+        case -1     :   SR_ColRdy = 0;
+                        state = SR_ColInit;
                         break;
+
+        case SR_ColInit :   state = SR_ColWait;
+                            break;
 
         case SR_ColWait :   if(!SR_ColSend)
                             {
@@ -49,6 +53,10 @@ int SR_ColTick(int state)
     switch(state)
     {
         case -1     :   break;
+
+        case SR_ColInit :   SR_ColSend = 0;
+                            SR_ColRdy = 1;
+                            break;
 
         case SR_ColWait :   break;
         
