@@ -7,19 +7,10 @@
 
 enum SR_ColStates { SR_ColWait, SR_ColWrite, SR_ColLatchHigh, SR_ColLatchLow } SR_ColState;
 
-void SR_ColSerHigh()
+int SR_ColTick(int state)
 {
-	SR_COL_PORT |= (1 << SR_COL_SER);
-}	
-
-void SR_ColSerLow()
-{
-	SR_COL_PORT &= (~(1 << SR_COL_SER));
-}
-
-int SR_Tick(int state)
-{
-    static unsigned char data = 0x00;
+    static unsigned long oldData = 0x0000;
+    static unsigned long data = 0x0000;
 
     // Transitions
     switch(state)
@@ -31,9 +22,11 @@ int SR_Tick(int state)
                             {
                                 state = SR_ColWait;
                             }
-                            else
+                            else if(colData != oldData)
                             {
-                                data = rowData;
+                                SR_ColRdy = 0;
+                                oldData = colData;
+                                data = colData;
                                 state = SR_ColWrite;
                             }
                             break;
@@ -44,7 +37,9 @@ int SR_Tick(int state)
         case SR_ColLatchHigh    :   state = SR_ColLatchLow;
                                     break;
 
-        case SR_ColLatchLow    :   state = SR_ColWait;
+        case SR_ColLatchLow    :   SR_ColSend = 0;
+                                   SR_ColRdy = 1;
+                                   state = SR_ColWait;
                                    break;
 
         default             :   break;
@@ -57,25 +52,29 @@ int SR_Tick(int state)
 
         case SR_ColWait :   break;
         
-        case SR_ColWrite    :  for(unsigned char i = 0; i < 8; i++)
-                               {
-                                  //Output the data on DS line according to the
-                                  //Value of MSB
-                                  if(data & 0x80)
-                                  {
-                                     //MSB is 1 so output high
-                                     SR_ColSerHigh();
-                                  }
-                                  else
-                                  {
-                                     //MSB is 0 so output high
-                                     SR_ColSerLow();
-                                  }
+        case SR_ColWrite    :   for(unsigned char i = 0; i < 16; i++)
+                                {
+                                    // Output the data on DS line according to the
+                                    // Value of MSB
+                                    if(data & 0x8000)
+                                    {
+                                        // MSB is 1 so output high
+                                        SR_COL_PORT |= (1 << SR_COL_SER); // High
+                                    }
+                                    else
+                                    {
+                                        // MSB is 0 so output low
+                                        SR_COL_PORT &= (~(1 << SR_COL_SER)); // Low
+                                    }
 
-                                  SR_ColPulse();  //Pulse the Clock line
-                                  data = data << 1;  //Now bring next bit at MSB position
-                               }
-                               break;
+                                    //Pulse the Clock line
+                                    SR_COL_PORT |= (1 << SR_COL_SRCLK); //High
+
+                                    SR_COL_PORT &= (~(1 << SR_COL_SRCLK)); // Low
+
+                                    data = data << 1;  //Now bring next bit at MSB position
+                                }
+                                break;
 
         case SR_ColLatchHigh    :   SR_COL_PORT |= (1 << SR_COL_RCLK); // High
                                     break;

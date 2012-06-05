@@ -7,18 +7,9 @@
 
 enum SR_RowStates { SR_RowWait, SR_RowWrite, SR_RowLatchHigh, SR_RowLatchLow } SR_RowState;
 
-void SR_RowSerHigh()
+int SR_RowTick(int state)
 {
-	SR_ROW_PORT |= (1 << SR_ROW_SER);
-}	
-
-void SR_RowSerLow()
-{
-	SR_ROW_PORT &= (~(1 << SR_ROW_SER));
-}
-
-int SR_Tick(int state)
-{
+    static unsigned char oldData = 0x00;
     static unsigned char data = 0x00;
 
     // Transitions
@@ -31,8 +22,10 @@ int SR_Tick(int state)
                             {
                                 state = SR_RowWait;
                             }
-                            else
+                            else if(rowData != oldData)
                             {
+                                SR_RowRdy = 0;
+                                oldData = rowData;
                                 data = rowData;
                                 state = SR_RowWrite;
                             }
@@ -44,7 +37,9 @@ int SR_Tick(int state)
         case SR_RowLatchHigh    :   state = SR_RowLatchLow;
                                     break;
 
-        case SR_RowLatchLow    :   state = SR_RowWait;
+        case SR_RowLatchLow    :   SR_RowSend = 0;
+                                   SR_RowRdy = 1;
+                                   state = SR_RowWait;
                                    break;
 
         default             :   break;
@@ -57,25 +52,29 @@ int SR_Tick(int state)
 
         case SR_RowWait :   break;
         
-        case SR_RowWrite    :  for(unsigned char i = 0; i < 8; i++)
-                               {
-                                  //Output the data on DS line according to the
-                                  //Value of MSB
-                                  if(data & 0x80)
-                                  {
-                                     //MSB is 1 so output high
-                                     SR_RowSerHigh();
-                                  }
-                                  else
-                                  {
-                                     //MSB is 0 so output high
-                                     SR_RowSerLow();
-                                  }
+        case SR_RowWrite    :   for(unsigned char i = 0; i < 8; i++)
+                                {
+                                    // Output the data on DS line according to the
+                                    // Value of MSB
+                                    if(data & 0x80)
+                                    {
+                                        // MSB is 1 so output high
+                                        SR_ROW_PORT |= (1 << SR_ROW_SER); // High
+                                    }
+                                    else
+                                    {
+                                        // MSB is 0 so output low
+                                        SR_ROW_PORT &= (~(1 << SR_ROW_SER)); // Low
+                                    }
 
-                                  SR_RowPulse();  //Pulse the Clock line
-                                  data = data << 1;  //Now bring next bit at MSB position
-                               }
-                               break;
+                                    //Pulse the Clock line
+                                    SR_ROW_PORT |= (1 << SR_ROW_SRCLK); //High
+
+                                    SR_ROW_PORT &= (~(1 << SR_ROW_SRCLK)); // Low
+
+                                    data = data << 1;  //Now bring next bit at MSB position
+                                }
+                                break;
 
         case SR_RowLatchHigh    :   SR_ROW_PORT |= (1 << SR_ROW_RCLK); // High
                                     break;
