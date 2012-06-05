@@ -1,7 +1,6 @@
 #ifndef __SHIFTREGCOLSM_H__
 #define __SHIFTREGCOLSM_H__
 
-#include <util/delay.h>
 #include "general.h"
 #include "PinMap.h"
 

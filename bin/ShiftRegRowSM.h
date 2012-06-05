@@ -1,7 +1,6 @@
 #ifndef __SHIFTREGROWSM_H__
 #define __SHIFTREGROWSM_H__
 
-#include <util/delay.h>
 #include "general.h"
 #include "PinMap.h"
 
