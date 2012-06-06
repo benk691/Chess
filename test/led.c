@@ -82,12 +82,6 @@ void TimerSet(unsigned long M)
 }
 /*--------END timer functions ------------------------------------------------*/
 
-struct LED
-{
-	unsigned char row_i;
-	unsigned long data;
-};
-
 unsigned char row[ 8 ] =
 {
 	0x7F,  //0111 1111 
@@ -111,19 +105,6 @@ unsigned long col[ 8 ] =
 	0x03C0,		//GG BB BB RR
 	0x03C0		//GG BB BB RR
 };
-/*
-LED col[ 8 ] =
-{
-	LED(0, 0x03C0),		//GG BB BB RR
-	LED(1, 0x03C0),		//GG BB BB RR
-	LED(2, 0x03C0),		//GG BB BB RR
-	LED(3, 0x03C0),		//GG BB BB RR
-	LED(4, 0x03C0),		//GG BB BB RR
-	LED(5, 0x03C0),		//GG BB BB RR
-	LED(6, 0x03C0),		//GG BB BB RR
-	LED(7, 0x03C0)		//GG BB BB RR
-};
-*/
 
 void WriteBoard()
 {

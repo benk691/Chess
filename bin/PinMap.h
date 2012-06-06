@@ -23,6 +23,8 @@
 
 #define LCD_DATA_PORT   PORTB
 #define LCD_CTRL_PORT   PORTD
+#define LCD_RESET_PIN	2
+#define LCD_ENABLE_PIN	3
 
 /*******************************************************/
 
