@@ -4,7 +4,7 @@
 #include "general.h"
 #include "PinMap.h"
 
-enum SR_ColStates { SR_ColInit, SR_ColWait, SR_ColWrite, SR_ColLatchHigh, SR_ColLatchLow } SR_ColState;
+enum SR_ColStates { SR_ColInit, SR_ColWait, SR_ColWrite } SR_ColState;
 
 int SR_ColTick(int state)
 {
@@ -14,8 +14,7 @@ int SR_ColTick(int state)
     // Transitions
     switch(state)
     {
-        case -1     :   SR_ColRdy = 0;
-                        state = SR_ColInit;
+        case -1     :   state = SR_ColInit;
                         break;
 
         case SR_ColInit :   state = SR_ColWait;
@@ -27,24 +26,15 @@ int SR_ColTick(int state)
                             }
                             else if(colData != oldData)
                             {
-                                SR_ColRdy = 0;
                                 oldData = colData;
                                 data = colData;
                                 state = SR_ColWrite;
                             }
                             break;
         
-        case SR_ColWrite    :  state = SR_ColLatchHigh;
+        case SR_ColWrite    :  state = SR_ColWait;
                                break;
-
-        case SR_ColLatchHigh    :   state = SR_ColLatchLow;
-                                    break;
-
-        case SR_ColLatchLow    :   SR_ColSend = 0;
-                                   SR_ColRdy = 1;
-                                   state = SR_ColWait;
-                                   break;
-								   
+							   
         default             :   break;
     }
 
@@ -54,7 +44,6 @@ int SR_ColTick(int state)
         case -1     :   break;
 
         case SR_ColInit :   SR_ColSend = 0;
-                            SR_ColRdy = 1;
                             break;
 
         case SR_ColWait :   break;
@@ -81,14 +70,16 @@ int SR_ColTick(int state)
 
                                     data = data << 1;  //Now bring next bit at MSB position
                                 }
+								
+								SR_COL_PORT |= (1 << SR_COL_RCLK); // High
+								asm("nop");
+								
+								SR_COL_PORT &= (~(1 << SR_COL_RCLK)); // Low
+								asm("nop");
+								
+								SR_ColSend = 0;
                                 break;
-
-        case SR_ColLatchHigh    :   SR_COL_PORT |= (1 << SR_COL_RCLK); // High
-                                    break;
-
-        case SR_ColLatchLow    :   SR_COL_PORT &= (~(1 << SR_COL_RCLK)); // Low
-                                   break;
-
+								
         default             :   break;
     }
     

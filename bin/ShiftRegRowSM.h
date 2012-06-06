@@ -4,7 +4,7 @@
 #include "general.h"
 #include "PinMap.h"
 
-enum SR_RowStates { SR_RowInit, SR_RowWait, SR_RowWrite, SR_RowLatchHigh, SR_RowLatchLow } SR_RowState;
+enum SR_RowStates { SR_RowInit, SR_RowWait, SR_RowWrite } SR_RowState;
 
 int SR_RowTick(int state)
 {
@@ -14,8 +14,7 @@ int SR_RowTick(int state)
     // Transitions
     switch(state)
     {
-        case -1     :   SR_RowRdy = 0;
-                        state = SR_RowInit;
+        case -1     :   state = SR_RowInit;
                         break;
         
         case SR_RowInit :   state = SR_RowWait;
@@ -27,23 +26,14 @@ int SR_RowTick(int state)
                             }
                             else if(rowData != oldData)
                             {
-                                SR_RowRdy = 0;
                                 oldData = rowData;
                                 data = rowData;
                                 state = SR_RowWrite;
                             }
                             break;
         
-        case SR_RowWrite    :  state = SR_RowLatchHigh;
+        case SR_RowWrite    :  state = SR_RowWait;
                                break;
-
-        case SR_RowLatchHigh    :   state = SR_RowLatchLow;
-                                    break;
-
-        case SR_RowLatchLow    :   SR_RowSend = 0;
-                                   SR_RowRdy = 1;
-                                   state = SR_RowWait;
-                                   break;
 
         default             :   break;
     }
@@ -54,7 +44,6 @@ int SR_RowTick(int state)
         case -1     :   break;
 
         case SR_RowInit :   SR_RowSend = 0;
-                            SR_RowRdy = 1;
                             break;
 
         case SR_RowWait :   break;
@@ -81,13 +70,15 @@ int SR_RowTick(int state)
 
                                     data = data << 1;  //Now bring next bit at MSB position
                                 }
+								
+								SR_ROW_PORT |= (1 << SR_ROW_RCLK); // High
+								asm("nop");
+								
+								SR_ROW_PORT &= (~(1 << SR_ROW_RCLK)); // Low
+								asm("nop");
+								
+								SR_RowSend = 0;
                                 break;
-
-        case SR_RowLatchHigh    :   SR_ROW_PORT |= (1 << SR_ROW_RCLK); // High
-                                    break;
-
-        case SR_RowLatchLow    :   SR_ROW_PORT &= (~(1 << SR_ROW_RCLK)); // Low
-                                   break;
 
         default             :   break;
     }

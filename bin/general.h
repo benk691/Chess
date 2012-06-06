@@ -11,10 +11,8 @@ unsigned char reset = 0;
 unsigned char LM_rdy = 0;
 
 unsigned char SR_RowSend = 0;
-unsigned char SR_RowRdy = 0;
 
 unsigned char SR_ColSend = 0;
-unsigned char SR_ColRdy = 0;
 
 /*
 const unsigned char ROW_ID = 'R';
