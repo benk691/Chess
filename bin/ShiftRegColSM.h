@@ -44,7 +44,7 @@ int SR_ColTick(int state)
                                    SR_ColRdy = 1;
                                    state = SR_ColWait;
                                    break;
-
+								   
         default             :   break;
     }
 
