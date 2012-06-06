@@ -8,21 +8,18 @@ enum SendConsumer_States { SC_Init_Wait, SC_dequeue_tx };
 
 int SendConsumer_SMTick(int state)
 {
-    const unsigned char mc = 2;
-    const unsigned char func = SEND;
-
 	/*State machine transitions*/
 	switch (state) 
 	{
 		case SC_Init_Wait: /* Init */
-			if ( !queue_num_objects || !(UCSRA & (1 << UDRE)) )
+			if ( !empty_queue(SEND) || !(UCSRA & (1 << UDRE)) )
             {
 				state = SC_Init_Wait;
 			}
 			else
             {
 				state = SC_dequeue_tx;
-				UDR = pop_queue(mc, func);
+				UDR = pop_queue(SEND);
 			}
 			break;
 

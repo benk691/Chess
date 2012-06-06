@@ -5,7 +5,7 @@
 
 #define RECV        0
 #define SEND        1
-#define QUEUE_MAX   4
+#define QUEUE_MAX   2
 #define MAX_QUEUE_SIZE 32
 
 //Circular Queue
@@ -18,46 +18,34 @@ typedef struct
     unsigned char num_objs; //Number of objects in queue.
 } Queue;
 
-Queue queue[QUEUE_MAX];
+Queue recv, send;
 
-// queue[0] --> MC1 recv
-// queue[1] --> MC1 send
-// queue[2] --> MC2 recv
-// queue[3] --> MC2 send
+Queue* queue[QUEUE_MAX] = { &recv, &send };
 
 void initQueues()
 {
     for(unsigned char i = 0; i < QUEUE_MAX; i++)
     {
-        queue[i].front = 0;
-        queue[i].back = MAX_QUEUE_SIZE - 1;
-        queue[i].num_objs = 0;
+        queue[i]->front = 0;
+        queue[i]->back = MAX_QUEUE_SIZE - 1;
+        queue[i]->num_objs = 0;
     }
 }
 
-int queueIndex(unsigned char mc, unsigned char func)
+unsigned char full_queue(unsigned char i)
 {
-    return (mc == 0 || mc > 2 || func > 1) ? -1 : (((int)(mc) - 1) + (int)(func));
+    return (i >= 0 && i < QUEUE_MAX) ? queue[i]->num_objs >= MAX_QUEUE_SIZE : 1;
 }
 
-unsigned char full_queue(unsigned char mc, unsigned char func)
+unsigned char empty_queue(unsigned char i)
 {
-    int i = queueIndex(mc, func);
-
-    return (i >= 0 && i < QUEUE_MAX) ? queue[i].num_objs >= MAX_QUEUE_SIZE : 1;
-}
-
-unsigned char empty_queue(unsigned char mc, unsigned char func)
-{
-    int i = queueIndex(mc, func);
-
-    return (i >= 0 && i < QUEUE_MAX) ? queue[i].num_objs == 0 : 1;
+    return (i >= 0 && i < QUEUE_MAX) ? queue[i]->num_objs == 0 : 1;
 }
 
 //Functionality - Push a character onto back of queue
 //Parameter: takes in a single unsigned char.
 //Returns: 1 if full else 0.
-unsigned char push_queue(unsigned char mc, unsigned char func, unsigned char c)
+unsigned char push_queue(unsigned char i, unsigned char c)
 {
 	//If queue is not full.
 	//Increment back counter, modulate according to the max queue size,
@@ -65,16 +53,14 @@ unsigned char push_queue(unsigned char mc, unsigned char func, unsigned char c)
 	//Put data into correct location.
 	//Return not full.
 	//Else Return queue is full.
-    int i = queueIndex(mc, func);
-
     if(i >= 0 && i < QUEUE_MAX)
     {
-        if(queue[i].num_objs < MAX_QUEUE_SIZE) 
+        if(queue[i]->num_objs < MAX_QUEUE_SIZE) 
         {
-            queue[i].back++;
-            queue[i].back %= MAX_QUEUE_SIZE;
-            queue[i].num_objs++;
-            queue[i].queue[ queue[i].back ] = c;
+            queue[i]->back++;
+            queue[i]->back %= MAX_QUEUE_SIZE;
+            queue[i]->num_objs++;
+            queue[i]->queue[ queue[i]->back ] = c;
 
             return 0;
         }
@@ -86,7 +72,7 @@ unsigned char push_queue(unsigned char mc, unsigned char func, unsigned char c)
 //Functionality - Pop first character from top of queue.
 //Parameter: None
 //Returns: unsigned char from queue else null character.
-unsigned char pop_queue(unsigned char mc, unsigned char func)
+unsigned char pop_queue(unsigned char i)
 {
 	//If queue is not empty.
 	//Retrieve data in correct location.
@@ -94,17 +80,15 @@ unsigned char pop_queue(unsigned char mc, unsigned char func)
 	//Increment front counter and modulate according to the max queue size.
 	//Return data.
 	//Else return null character to indicate empty.
-    int i = queueIndex(mc, func);
-
     if(i >= 0 && i < QUEUE_MAX)
     {
-        if(queue[i].num_objs > 0)
+        if(queue[i]->num_objs > 0)
         {
-            unsigned char tmp = queue[i].queue[ queue[i].front ];
-            queue[i].queue[ queue[i].front ] = '\0';
-            queue[i].front++;
-            queue[i].front %= MAX_QUEUE_SIZE;
-            queue[i].num_objs--;
+            unsigned char tmp = queue[i]->queue[ queue[i]->front ];
+            queue[i]->queue[ queue[i]->front ] = '\0';
+            queue[i]->front++;
+            queue[i]->front %= MAX_QUEUE_SIZE;
+            queue[i]->num_objs--;
 
             return tmp;
         }

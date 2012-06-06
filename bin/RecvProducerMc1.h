@@ -8,9 +8,6 @@ enum RecvProducer_States { RP_Init_Wait, RP_enqueue_rx };
 
 int RecvProducer_SMTick(int state)
 {
-    const unsigned char mc = 1;
-    const unsigned char func = RECV;
-	
 	static unsigned char dummy;
     
     /*State machine transitions*/
@@ -24,7 +21,7 @@ int RecvProducer_SMTick(int state)
 		else
 		{
 			state = RP_enqueue_rx;
-			push_queue(mc, func, UDR);
+			push_queue(RECV, UDR);
 		}
 		break;
 

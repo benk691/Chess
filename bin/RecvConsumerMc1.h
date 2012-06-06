@@ -8,23 +8,20 @@ enum RecvConsumer_States { RC_Init_Wait, RC_dequeue };
 
 int RecvConsumer_SMTick(int state) 
 {
-    const unsigned char mc = 1;
-    const unsigned char func = RECV;
-	
 	static unsigned char c, i;
     
     /*State machine transitions*/
 	switch (state) 
 	{
 		case RC_Init_Wait: /* Init */
-			if (!empty_queue(mc, func)) 
+			if (!empty_queue(RECV)) 
 			{
 				state = RC_Init_Wait;
 			}
 			else
 			{
 				state = RC_dequeue;
-				c = pop_queue(mc, func);
+				c = pop_queue(RECV);
 				rowData = 0x00;
 				colData = c;
 				SR_RowSend = 1;
@@ -41,7 +38,7 @@ int RecvConsumer_SMTick(int state)
 			break;
 	}
 
-		/*State machine actions*/
+    /*State machine actions*/
 	switch(state) 
 	{
 		case RC_Init_Wait: /* Init */
