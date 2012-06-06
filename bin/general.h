@@ -2,6 +2,8 @@
 #define __GENERAL_H__
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
+#include <stdio.h>
 
 unsigned char rowData = 0x00;
 unsigned long colData = 0x0000;
