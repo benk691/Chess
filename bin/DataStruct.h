@@ -98,7 +98,7 @@ unsigned char pop_queue(unsigned char mc, unsigned char func)
 
     if(i >= 0 && i < QUEUE_MAX)
     {
-        if(queue[i]._num_objs > 0)
+        if(queue[i].num_objs > 0)
         {
             unsigned char tmp = queue[i].queue[ queue[i].front ];
             queue[i].queue[ queue[i].front ] = '\0';
