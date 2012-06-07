@@ -2,7 +2,7 @@
 #define __RECVMC1_H__
 
 #include "general.h"
-#include "Queue.h"
+#include "QueueMc1.h"
 
 enum RecvProducer_States { RP_Init_Wait, RP_enqueue_rx };
 	
@@ -26,7 +26,7 @@ int RecvProducer_SMTick(int state)
 		else
 		{
 			state = RP_enqueue_rx;
-			push_rqueue(UDR);
+			push_r1queue(UDR);
 		}
 		break;
 
@@ -73,7 +73,7 @@ int RecvConsumer_SMTick(int state)
 	switch (state) 
 	{
 		case RC_Init_Wait: /* Init */
-			if (!rqueue_num_objs) 
+			if (!r1queue_num_objs) 
 			{
 				state = RC_Init_Wait;
 			}
@@ -99,7 +99,7 @@ int RecvConsumer_SMTick(int state)
 			break;
 
 		case RC_dequeue:
-			c = pop_rqueue();
+			c = pop_r1queue();
 			
 			if(c >= 'a' && c <= 'h')
 			{
@@ -170,7 +170,7 @@ void colUpdate(unsigned char c)
 }
 //*/
 
-///*
+/*
 void rowUpdate(unsigned char c)
 {
 	unsigned char k;

@@ -1,10 +1,10 @@
-#ifndef __SENDMC2_H__
-#define __SENDMC2_H__
+#ifndef __SENDMC1_H__
+#define __SENDMC1_H__
 
 #include "general.h"
-#include "QueueMc2.h"
+#include "QueueMc1.h"
 
-enum SendProducer_States { SP_Init, SP_Gen };
+enum SendProducer_States { SP_Init, SP_Wait };
 
 int SendProducer_SMTick(int state) 
 {	
@@ -17,8 +17,8 @@ int SendProducer_SMTick(int state)
 			state = SP_Gen;
 			break;
 
-		case SP_Gen:
-			state = SP_Gen;
+		case SP_Wait:
+			state = SP_Wait;
 			break;
 
 		default:
@@ -32,11 +32,7 @@ int SendProducer_SMTick(int state)
 		case SP_Init: /* Init */
 			break;
 
-		case SP_Gen:
-			if(key != '\0')
-			{
-				push_s2queue(key);
-			}
+		case SP_Wait:
 			break;
 
 		default:
@@ -55,14 +51,14 @@ int SendConsumer_SMTick(int state)
 	switch (state) 
 	{
 		case SC_Init_Wait: /* Init */
-			if ( !s2queue_num_objs || !(UCSRA & (1 << UDRE)) )
+			if ( !s1queue_num_objs || !(UCSRA & (1 << UDRE)) )
             {
 				state = SC_Init_Wait;
 			}
 			else
             {
 				state = SC_dequeue_tx;
-				UDR = pop_s2queue();
+				UDR = pop_s1queue();
 			}
 			break;
 
@@ -98,4 +94,4 @@ int SendConsumer_SMTick(int state)
 	return state;
 }
 
-#endif //__SENDMC2_H__
+#endif //__SENDMC1_H__
