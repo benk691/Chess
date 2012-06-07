@@ -1,13 +1,14 @@
 /*
- * test.c
+ * proj_mc1.c
  *
- * Created: 6/4/2012 7:17:51 AM
+ * Created: 6/7/2012 1:55:33 AM
  *  Author: Embedded Systems Lab
  */ 
 
 #include "ShiftReg.h"
 #include "RecvMc1.h"
 #include "LedMatrixSM.h"
+#include "MoveSM.h"
 
 /******** Timer functions ********************************************/
 // TimerISR() sets this to 1. C programmer should clear to 0.
@@ -162,12 +163,16 @@ int main(void)
 	unsigned long int RC_period_calc = 10;
 	//Period for LED Matrix
 	unsigned long int LM_period_calc = 2;
+	//Period for Move
+	unsigned long int Move_period_calc = 8;
+	
 
 	//Calculating GCD
 	unsigned long int tmpGCD = 1;
 	tmpGCD = findGCD(RC_period_calc, RP_period_calc);
 	tmpGCD = findGCD(tmpGCD, SR_period_calc);
 	tmpGCD = findGCD(tmpGCD, LM_period_calc);
+	tmpGCD = findGCD(tmpGCD, Move_period_calc);
 
 	//Greatest common divisor for all tasks or smallest time unit for tasks.
 	unsigned long int GCD = tmpGCD;
@@ -177,32 +182,21 @@ int main(void)
 	unsigned long int RP_period = RP_period_calc/GCD;
 	unsigned long int RC_period = RC_period_calc/GCD;
 	unsigned long int LM_period = LM_period_calc/GCD;
+	unsigned long int Move_period = Move_period_calc/GCD;
 
 	/*Declare an array of tasks and an integer containing the number of tasks in
 	our system*/
-	static task task1, task2, task3, task4, task5; /*Add or delete tasks as necessary*/
-	task *tasks[] = { &task1, &task2, &task3, &task4, &task5 };
+	static task task1, task2, task3, task4, task5, task6; /*Add or delete tasks as necessary*/
+	task *tasks[] = { &task1, &task2, &task3, &task4, &task5, &task6 };
 	const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
-/*
-	//SR Row
-	task1.state = -1;//Task initial state.
-	task1.period = SR_period;//Task Period.
-	task1.elapsedTime = SR_period;//Task current elasped time.
-	task1.TickFct = &SR_RowTick;//Function pointer for the tick.
 	
 	//SR Col
-	task2.state = -1;//Task initial state.
-	task2.period = SR_period;//Task Period.
-	task2.elapsedTime = SR_period;//Task current elasped time.
-	task2.TickFct = &SR_ColTick;//Function pointer for the tick.
-*/
-	//SR Row
 	task1.state = -1;//Task initial state.
 	task1.period = SR_period;//Task Period.
 	task1.elapsedTime = SR_period;//Task current elasped time.
 	task1.TickFct = &SR_ColTick;//Function pointer for the tick.
 	
-	//SR Col
+	//SR Row
 	task2.state = -1;//Task initial state.
 	task2.period = SR_period;//Task Period.
 	task2.elapsedTime = SR_period;//Task current elasped time.
@@ -225,6 +219,12 @@ int main(void)
 	task5.period = LM_period;//Task Period.
 	task5.elapsedTime = LM_period;//Task current elasped time.
 	task5.TickFct = &LM_Tick;//Function pointer for the tick.
+	
+	//Move
+	task6.state = -1;//Task initial state.
+	task6.period = Move_period;//Task Period.
+	task6.elapsedTime = Move_period;//Task current elasped time.
+	task6.TickFct = &Move_Tick;//Function pointer for the tick.
 
 	//Set the timer and turn it on
 	TimerSet(GCD);

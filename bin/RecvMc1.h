@@ -5,9 +5,11 @@
 #include "Queue.h"
 
 enum RecvProducer_States { RP_Init_Wait, RP_enqueue_rx };
-
+	
+/*
 void rowUpdate(unsigned char c);
 void colUpdate(unsigned char c);
+*/
 
 int RecvProducer_SMTick(int state)
 {
@@ -101,14 +103,14 @@ int RecvConsumer_SMTick(int state)
 			
 			if(c >= 'a' && c <= 'h')
 			{
-				rowUpdate(c);
+				Move_Row = c;
+				Move_RowSend = 1;
 			}
 			else if(c >= 1 && c <= 8)
 			{
-				colUpdate(c);
+				Move_Col = c;
+				Move_ColSend = 1;
 			}
-			
-			//LM_enable_unique = 1;
 			break;
 
 		default:
