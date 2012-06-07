@@ -161,7 +161,7 @@ int main(void)
 	//Period for Consumer task.(800 ms)
 	unsigned long int RC_period_calc = 10;
 	//Period for LED Matrix
-	unsigned long int LM_period_calc = 3;
+	unsigned long int LM_period_calc = 2;
 
 	//Calculating GCD
 	unsigned long int tmpGCD = 1;
@@ -183,7 +183,7 @@ int main(void)
 	static task task1, task2, task3, task4, task5; /*Add or delete tasks as necessary*/
 	task *tasks[] = { &task1, &task2, &task3, &task4, &task5 };
 	const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
-
+/*
 	//SR Row
 	task1.state = -1;//Task initial state.
 	task1.period = SR_period;//Task Period.
@@ -195,6 +195,18 @@ int main(void)
 	task2.period = SR_period;//Task Period.
 	task2.elapsedTime = SR_period;//Task current elasped time.
 	task2.TickFct = &SR_ColTick;//Function pointer for the tick.
+*/
+	//SR Row
+	task1.state = -1;//Task initial state.
+	task1.period = SR_period;//Task Period.
+	task1.elapsedTime = SR_period;//Task current elasped time.
+	task1.TickFct = &SR_ColTick;//Function pointer for the tick.
+	
+	//SR Col
+	task2.state = -1;//Task initial state.
+	task2.period = SR_period;//Task Period.
+	task2.elapsedTime = SR_period;//Task current elasped time.
+	task2.TickFct = &SR_RowTick;//Function pointer for the tick.
 	
 	//Producer
 	task3.state = RP_Init_Wait;//Task initial state.

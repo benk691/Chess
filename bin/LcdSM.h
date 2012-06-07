@@ -10,10 +10,8 @@ unsigned char *LCD_Ctrl = &LCD_CTRL_PORT; // LCD needs 2-bits for control, use p
 const unsigned char LCD_RS = LCD_RESET_PIN;     // LCD Reset pin is PD2
 const unsigned char LCD_E = LCD_ENABLE_PIN;      // LCD Enable pin is PD3
 
-unsigned char LCD_rdy_g=0; // Set by LCD interface synchSM, ready to display new string
-
-
-void LCD_WriteCmdStart(unsigned char cmd) {
+void LCD_WriteCmdStart(unsigned char cmd)
+{
 	*LCD_Ctrl = SetBit(*LCD_Ctrl,LCD_RS, 0);
 	*LCD_Data = cmd;
 	*LCD_Ctrl = SetBit(*LCD_Ctrl,LCD_E, 1);
@@ -21,15 +19,18 @@ void LCD_WriteCmdStart(unsigned char cmd) {
 void LCD_WriteCmdEnd() {
 	*LCD_Ctrl = SetBit(*LCD_Ctrl,LCD_E, 0);
 }
-void LCD_WriteDataStart(unsigned char Data) {
+void LCD_WriteDataStart(unsigned char Data)
+{
 	*LCD_Ctrl = SetBit(*LCD_Ctrl,LCD_RS,1);
 	*LCD_Data = Data;
 	*LCD_Ctrl = SetBit(*LCD_Ctrl,LCD_E, 1);
 }
-void LCD_WriteDataEnd() {
+void LCD_WriteDataEnd()
+{
 	*LCD_Ctrl = SetBit(*LCD_Ctrl,LCD_E, 0);
 }
-void LCD_Cursor(unsigned char column) {
+void LCD_Cursor(unsigned char column)
+{
 	if ( column < 8 ) {
 		LCD_WriteCmdStart(0x80+column);
 	}
