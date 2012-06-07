@@ -4,11 +4,11 @@
 #include "general.h"
 #include "QueueMc1.h"
 
-enum SendProducer_States { SP_Init, SP_Wait };
+enum SendProducer_States { SP_Init, SP_Gen };
 
 int SendProducer_SMTick(int state) 
 {	
-	static unsigned char i = 0;
+	unsigned char msg = '?';
 	
 	/*State machine transitions*/
 	switch (state) 
@@ -17,8 +17,8 @@ int SendProducer_SMTick(int state)
 			state = SP_Gen;
 			break;
 
-		case SP_Wait:
-			state = SP_Wait;
+		case SP_Gen:
+			state = SP_Gen;
 			break;
 
 		default:
@@ -32,7 +32,8 @@ int SendProducer_SMTick(int state)
 		case SP_Init: /* Init */
 			break;
 
-		case SP_Wait:
+		case SP_Gen:
+			push_s1queue(msg);
 			break;
 
 		default:

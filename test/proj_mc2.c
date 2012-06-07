@@ -132,6 +132,7 @@ void USART_Send(char sendMe)
 	UDR = sendMe;
 	return;
 }
+
 /*--------END UART functions -------------------------------------------------*/
 
 /*--------Task scheduler data structure---------------------------------------*/
@@ -147,6 +148,17 @@ typedef struct _task {
 
 /*--------End Task scheduler data structure-----------------------------------*/
 
+void synchWait()
+{
+	TimerSet(1000);
+	TimerOn();
+	
+	while(!TimerFlag);
+	TimerFlag = 0;
+	
+	TimerOff();
+}
+
 void init()
 {
 	DDRA = 0xFF; PORTA = 0x00;
@@ -155,6 +167,7 @@ void init()
 	DDRD = 0xFF; PORTD = 0x00;
 	
 	initUSART();
+	synchWait();
 }
 
 int main(void)
@@ -182,8 +195,8 @@ int main(void)
 	tmpGCD = findGCD(tmpGCD, TimerDisplay_period_calc);
 	tmpGCD = findGCD(tmpGCD, SP_period_calc);
 	tmpGCD = findGCD(tmpGCD, SC_period_calc);
-    tmpGCD = findGCD(tempGCD, RC_period_calc);
-    tmpGCD = findGCD(tempGCD, RP_period_calc);
+    tmpGCD = findGCD(tmpGCD, RC_period_calc);
+    tmpGCD = findGCD(tmpGCD, RP_period_calc);
 	
 	//Greatest common divisor for all tasks or smallest time unit for tasks.
 	unsigned long int GCD = tmpGCD;

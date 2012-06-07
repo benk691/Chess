@@ -63,6 +63,7 @@ enum RecvConsumer_States { RC_Init_Wait, RC_dequeue };
 int RecvConsumer_SMTick(int state) 
 {
 	static unsigned char c;
+	static unsigned char i = 0;
     
     /*State machine transitions*/
 	switch (state) 
@@ -91,20 +92,20 @@ int RecvConsumer_SMTick(int state)
 	switch(state) 
 	{
 		case RC_Init_Wait: /* Init */
+			LCD_go_g = 0;
 			break;
 
 		case RC_dequeue:
 			c = pop_r2queue();
 			
-			if(c >= 'a' && c <= 'h')
+			if(c != '\0')
 			{
-				Move_Row = c;
-				Move_RowSend = 1;
-			}
-			else if(c >= 1 && c <= 8)
-			{
-				Move_Col = c;
-				Move_ColSend = 1;
+				for(i = 0; i < 16; i++)
+				{
+					LCD_string_g[i] = c;
+				}
+				LCD_string_g[i] = '\0';
+				LCD_go_g = 1;	
 			}
 			break;
 

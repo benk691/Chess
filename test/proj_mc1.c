@@ -142,6 +142,17 @@ unsigned long int findGCD(unsigned long int a, unsigned long int b)
 }
 /*--------End find GCD function ----------------------------------------------*/
 
+void synchWait()
+{
+	TimerSet(1000);
+	TimerOn();
+	
+	while(!TimerFlag);
+	TimerFlag = 0;
+	
+	TimerOff();
+}
+
 void init()
 {
 	DDRA = 0xFF; PORTA = 0x00;
@@ -151,6 +162,7 @@ void init()
 	
 	SRInit();
 	initUSART();
+	synchWait();
 }
 
 int main(void)
