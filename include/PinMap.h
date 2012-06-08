@@ -12,15 +12,15 @@
 
 // LED Matrix SR for rows
 #define SR_ROW_PORT		PORTC
-#define SR_ROW_RCLK		4
+#define SR_ROW_PIN		4
 
 // LED Matrix SR for columns
 #define SR_COL_PORT		PORTB
-#define SR_COL_RCLK		1
+#define SR_COL_PIN		1
 
 // SR for piece
 #define SR_PIECE_PORT	PORTD
-#define SR_PIECE_RCLK	3
+#define SR_PIECE_PIN	3
 
 /******************************************************************/
 /********************* 7-Seg Pin Map *********************/

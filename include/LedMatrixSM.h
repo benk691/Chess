@@ -89,11 +89,10 @@ int LM_Tick(int state)
 			}
 			
 			rowData = row[k];
-			SR_RowSend = 1;
 			
 			colData = col[k];
-			SR_ColSend = 1;
-			
+			Transmit(SR_ROW_PORT, SR_ROW_PIN, rowData);
+            Transmit(SR_ROW_PORT, SR_ROW_PIN, rowData);
 			k++;
             break;
 			
