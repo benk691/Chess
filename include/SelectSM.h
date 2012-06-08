@@ -3,7 +3,7 @@
 
 #include "general.h"
 
-enum Select_States { Select_Wait, Select_SetRow, Select_SetCol, Select_Piece } Select_State;
+enum Select_States { Select_Wait, Select_SetRow, Select_SetCol, Select_Piece, Select_Clear } Select_State;
 
 typedef struct
 {
@@ -67,6 +67,10 @@ int Select_Tick(int state)
             break;
 
         case Select_Piece:
+            state = Select_Clear;
+            break;
+			
+		case Select_Clear:
             state = Select_Wait;
             break;
 
@@ -92,6 +96,11 @@ int Select_Tick(int state)
 			s.row =  (s.row - (int)('a'));
             selection(s);
             break;
+			
+		case Select_Clear:
+            s.cSet = 0;
+            s.rSet = 0;
+            break;
     }
 
     return state;
@@ -99,10 +108,14 @@ int Select_Tick(int state)
 
 void selection(Select m)
 {
-
     unsigned long dval = 0x03C0;
 
-    if(GetBit(col[m.row], m.col - 1) == 1)
+	for(unsigned char j = 0; j < matrix_size; j++)
+	{
+		col[j] = dval;
+	}
+	
+    if(GetBit(col[m.row], m.col - 1) == 0 && GetBit(col[m.col - 1], m.row) == 0)
     {
         switch(turn)
         {
@@ -144,35 +157,72 @@ void selection(Select m)
                 break;
         }
     }
-
-    switch(m.col)
-    {
-        case 1:
-            col[m.row] |= 0x0001;
-            break;
-        case 2:
-            col[m.row] |= 0x0002;
-            break;
-        case 3:
-            col[m.row] |= 0x0004;
-            break;
-        case 4:
-            col[m.row] |= 0x0008;
-            break;
-        case 5:
-            col[m.row] |= 0x0010;
-            break;
-        case 6:
-            col[m.row] |= 0x0020;
-            break;
-        case 7:
-            col[m.row] |= 0x0040;
-            break;
-        case 8:
-            col[m.row] |= 0x0080;
-            break;
-        default : break;
-    }
+switch(turn)
+{
+	case WHITE:
+		switch(m.col)
+		{
+			case 1:
+				col[m.row] |= 0x0001;
+				break;
+			case 2:
+				col[m.row] |= 0x0002;
+				break;
+			case 3:
+				col[m.row] |= 0x0004;
+				break;
+			case 4:
+				col[m.row] |= 0x0008;
+				break;
+			case 5:
+				col[m.row] |= 0x0010;
+				break;
+			case 6:
+				col[m.row] |= 0x0020;
+				break;
+			case 7:
+				col[m.row] |= 0x0040;
+				break;
+			case 8:
+				col[m.row] |= 0x0080;
+				break;
+			default : break;
+		}
+		break;
+	
+	case BLACK:
+		switch(m.col)
+		{
+			case 1:
+				col[m.row] |= 0x0100;
+				break;
+			case 2:
+				col[m.row] |= 0x0200;
+				break;
+			case 3:
+				col[m.row] |= 0x0400;
+				break;
+			case 4:
+				col[m.row] |= 0x0800;
+				break;
+			case 5:
+				col[m.row] |= 0x1000;
+				break;
+			case 6:
+				col[m.row] |= 0x2000;
+				break;
+			case 7:
+				col[m.row] |= 0x4000;
+				break;
+			case 8:
+				col[m.row] |= 0x8000;
+				break;
+			default : break;
+		}
+		
+	default: break;
+}	
+	
 	if(m.col == 2)
 	{
 		piece = PAWN;
