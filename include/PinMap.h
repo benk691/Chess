@@ -3,6 +3,7 @@
 
 /********************* Shift Register Pin Map *********************/
 
+// LED Matrix SR for rows
 #define SR_ROW_PORT		PORTA
 #define SR_ROW_DDR		DDRA
 
@@ -10,12 +11,29 @@
 #define SR_ROW_RCLK		PA1
 #define SR_ROW_SRCLK	PA2
 
+// LED Matrix SR for columns
 #define SR_COL_PORT		PORTB
 #define SR_COL_DDR		DDRB
 
 #define SR_COL_SER		PB0
 #define SR_COL_RCLK		PB1
 #define SR_COL_SRCLK	PB2
+
+// SR for piece
+#define SR_PIECE_PORT	PORTC
+#define SR_PIECE_DDR	DDRC
+
+#define SR_PIECE_SER	PC0
+#define SR_PIECE_RCLK	PC1
+#define SR_PIECE_SRCLK	PC2
+
+// SR for score
+#define SR_SCORE_PORT	PORTA
+#define SR_SCORE_DDR	DDRA
+
+#define SR_SCORE_SER	PA0
+#define SR_SCORE_RCLK	PA1
+#define SR_SCORE_SRCLK	PA2
 
 /******************************************************************/
 

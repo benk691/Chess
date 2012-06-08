@@ -203,6 +203,43 @@ void selection(Move m)
         default:
             break;
     }
+	
+	if(m.col == 2)
+	{
+		piece = PAWN;
+	}
+	else
+	{
+		switch(m.row)
+		{
+			case 0:
+			case 7:
+				piece = ROOK;
+				break;
+				
+			case 1:
+			case 6:
+				piece = KNIGHT;
+				break;
+				
+			case 2:
+			case 5:
+				piece = BISHOP;
+				break;
+				
+			case 3:
+				piece = QUEEN;
+				break;
+			
+			case 4:
+				piece = KING;
+				break;
+				
+			default:
+				piece = NONE;
+				break;
+		}
+	}
 }
 
 #endif //__MOVESM_H__

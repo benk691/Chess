@@ -5,11 +5,11 @@
  *  Author: Embedded Systems Lab
  */ 
 
-#include "../../include/ShiftReg.h"
+#include "../../include/ShiftRegMc1.h"
 #include "../../include/RecvMc1.h"
-#include "../../include/SendMc1.h"
 #include "../../include/LedMatrixSM.h"
 #include "../../include/MoveSM.h"
+#include "../../include/PieceDisplaySM.h"
 
 /******** Timer functions ********************************************/
 // TimerISR() sets this to 1. C programmer should clear to 0.
@@ -175,14 +175,13 @@ int main(void)
 	unsigned long int RP_period_calc = 5;
 	//Period for Consumer task.(800 ms)
 	unsigned long int RC_period_calc = 10;
-    //Period for Producer task. (50 ms)
-	unsigned long int SP_period_calc = 5;
-	//Period for Consumer task.(100 ms)
-	unsigned long int SC_period_calc = 10;
 	//Period for LED Matrix
 	unsigned long int LM_period_calc = 2;
 	//Period for Move
 	unsigned long int Move_period_calc = 8;
+    //Period for Piece Display
+	unsigned long int PieceDisplay_period_calc = 8;
+    
 
 	//Calculating GCD
 	unsigned long int tmpGCD = 1;
@@ -190,8 +189,7 @@ int main(void)
 	tmpGCD = findGCD(tmpGCD, SR_period_calc);
 	tmpGCD = findGCD(tmpGCD, LM_period_calc);
 	tmpGCD = findGCD(tmpGCD, Move_period_calc);
-    tmpGCD = findGCD(tmpGCD, SP_period_calc);
-	tmpGCD = findGCD(tmpGCD, SC_period_calc);
+    tmpGCD = findGCD(tmpGCD, PieceDisplay_period_calc);
 
 	//Greatest common divisor for all tasks or smallest time unit for tasks.
 	unsigned long int GCD = tmpGCD;
@@ -202,8 +200,8 @@ int main(void)
 	unsigned long int RC_period = RC_period_calc/GCD;
 	unsigned long int LM_period = LM_period_calc/GCD;
 	unsigned long int Move_period = Move_period_calc/GCD;
-    unsigned long int SP_period = SP_period_calc/GCD;
-	unsigned long int SC_period = SC_period_calc/GCD;
+    unsigned long int PieceDisplay_period = PieceDisplay_period_calc / GCD;
+    
 
 	/*Declare an array of tasks and an integer containing the number of tasks in
 	our system*/
@@ -222,42 +220,42 @@ int main(void)
 	task2.period = SR_period;//Task Period.
 	task2.elapsedTime = SR_period;//Task current elasped time.
 	task2.TickFct = &SR_RowTick;//Function pointer for the tick.
+
+    //SR Piece
+	task3.state = -1;//Task initial state.
+	task3.period = SR_period;//Task Period.
+	task3.elapsedTime = SR_period;//Task current elasped time.
+	task3.TickFct = &SR_PieceTick;//Function pointer for the tick.
 	
 	//Recv Producer
-	task3.state = RP_Init_Wait;//Task initial state.
-	task3.period = RP_period;//Task Period.
-	task3.elapsedTime = RP_period;//Task current elasped time.
-	task3.TickFct = &RecvProducer_SMTick;//Function pointer for the tick.
+	task4.state = RP_Init_Wait;//Task initial state.
+	task4.period = RP_period;//Task Period.
+	task4.elapsedTime = RP_period;//Task current elasped time.
+	task4.TickFct = &RecvProducer_SMTick;//Function pointer for the tick.
 
 	//Recv Consumer
-	task4.state = RC_Init_Wait;//Task initial state.
-	task4.period = RC_period;//Task Period.
-	task4.elapsedTime = RC_period;//Task current elasped time.
-	task4.TickFct = &RecvConsumer_SMTick;//Function pointer for the tick.
-
-    //Send Producer
-	task5.state = SP_Init;//Task initial state.
-	task5.period = SP_period;//Task Period.
-	task5.elapsedTime = SP_period;//Task current elasped time.
-	task5.TickFct = &SendProducer_SMTick;//Function pointer for the tick.
-
-	//Send Consumer
-	task6.state = SC_Init_Wait;//Task initial state.
-	task6.period = SC_period;//Task Period.
-	task6.elapsedTime = SC_period;//Task current elasped time.
-	task6.TickFct = &SendConsumer_SMTick;//Function pointer for the tick.
+	task5.state = RC_Init_Wait;//Task initial state.
+	task5.period = RC_period;//Task Period.
+	task5.elapsedTime = RC_period;//Task current elasped time.
+	task5.TickFct = &RecvConsumer_SMTick;//Function pointer for the tick.
 	
 	//LED Matrix
-	task7.state = -1;//Task initial state.
-	task7.period = LM_period;//Task Period.
-	task7.elapsedTime = LM_period;//Task current elasped time.
-	task7.TickFct = &LM_Tick;//Function pointer for the tick.
+	task6.state = -1;//Task initial state.
+	task6.period = LM_period;//Task Period.
+	task6.elapsedTime = LM_period;//Task current elasped time.
+	task6.TickFct = &LM_Tick;//Function pointer for the tick.
 	
 	//Move
+	task7.state = -1;//Task initial state.
+	task7.period = Move_period;//Task Period.
+	task7.elapsedTime = Move_period;//Task current elasped time.
+	task7.TickFct = &Move_Tick;//Function pointer for the tick.
+
+    //Piece Display
 	task8.state = -1;//Task initial state.
-	task8.period = Move_period;//Task Period.
-	task8.elapsedTime = Move_period;//Task current elasped time.
-	task8.TickFct = &Move_Tick;//Function pointer for the tick.
+	task8.period = PieceDisplay_period;//Task Period.
+	task8.elapsedTime = PieceDisplay_period;//Task current elasped time.
+	task8.TickFct = &PieceDisplay_Tick;//Function pointer for the tick.
 
 	//Set the timer and turn it on
 	TimerSet(GCD);
