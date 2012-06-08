@@ -8,7 +8,7 @@
 #include "../../include/ShiftReg.h"
 #include "../../include/RecvMc1.h"
 #include "../../include/LedMatrixSM.h"
-#include "../../include/MoveSM.h"
+#include "../../include/SelectSM.h"
 #include "../../include/PieceDisplaySM.h"
 #include "../../include/ScoreDisplayMC1.h"
 
@@ -178,8 +178,8 @@ int main(void)
 	unsigned long int RC_period_calc = 10;
 	//Period for LED Matrix
 	unsigned long int LM_period_calc = 2;
-	//Period for Move 
-	unsigned long int Move_period_calc = 8;
+	//Period for Select 
+	unsigned long int Select_period_calc = 8;
     //Period for Piece Display
 	unsigned long int PieceDisplay_period_calc = 8;
     //Period for Score Display
@@ -190,7 +190,7 @@ int main(void)
 	tmpGCD = findGCD(RC_period_calc, RP_period_calc);
 	tmpGCD = findGCD(tmpGCD, SR_period_calc);
 	tmpGCD = findGCD(tmpGCD, LM_period_calc);
-	tmpGCD = findGCD(tmpGCD, Move_period_calc);
+	tmpGCD = findGCD(tmpGCD, Select_period_calc);
     tmpGCD = findGCD(tmpGCD, PieceDisplay_period_calc);
     tmpGCD = findGCD(tmpGCD, ScoreDisplay_period_calc);
 
@@ -202,7 +202,7 @@ int main(void)
 	unsigned long int RP_period = RP_period_calc/GCD;
 	unsigned long int RC_period = RC_period_calc/GCD;
 	unsigned long int LM_period = LM_period_calc/GCD;
-	unsigned long int Move_period = Move_period_calc/GCD;
+	unsigned long int Select_period = Select_period_calc/GCD;
     unsigned long int PieceDisplay_period = PieceDisplay_period_calc / GCD;
     unsigned long int ScoreDisplay_period = ScoreDisplay_period_calc / GCD;
     
@@ -249,11 +249,11 @@ int main(void)
 	task6.elapsedTime = LM_period;//Task current elasped time.
 	task6.TickFct = &LM_Tick;//Function pointer for the tick.
 	
-	/Move/
+	/Select/
 	task7.state = -1;//Task initial state.
-	task7.period = Move_period;//Task Period.
-	task7.elapsedTime = Move_period;//Task current elasped time.
-	task7.TickFct = &Move_Tick;//Function pointer for the tick.
+	task7.period = Select_period;//Task Period.
+	task7.elapsedTime = Select_period;//Task current elasped time.
+	task7.TickFct = &Select_Tick;//Function pointer for the tick.
 
     //Piece Display
 	task8.state = -1;//Task initial state.
