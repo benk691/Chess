@@ -1,4 +1,16 @@
 /*
+ * kelloggb_proj_mc1.c - 06/08/2012
+ * Name & E-mail: Benjamin Kellogg kelloggb@cs.ucr.edu
+ * CS Login: kelloggb
+ * Partner(s) Name & E-mail: Gabriel Limon glimo002@ucr.edu
+ * Lab Section: 021
+ * Assignment: Lab Project
+ * Project Description: This game is based off of chess, but is more like guessing 
+ * 	which locations have positive or negative points.
+ * 
+ * I acknowledge all content contained herein is my own original work.
+ */
+/*
  * proj_mc1.c
  *
  * Created: 6/7/2012 1:55:33 AM

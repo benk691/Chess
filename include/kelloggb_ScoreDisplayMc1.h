@@ -1,5 +1,17 @@
-#ifndef __SCOREDISPLAYMC2_H__
-#define __SCOREDISPLAYMC2_H__
+/*
+ * kelloggb_ScoreDisplayMc1.h - 06/08/2012
+ * Name & E-mail: Benjamin Kellogg kelloggb@cs.ucr.edu
+ * CS Login: kelloggb
+ * Partner(s) Name & E-mail: Gabriel Limon glimo002@ucr.edu
+ * Lab Section: 021
+ * Assignment: Lab Project
+ * Project Description: This game is based off of chess, but is more like guessing 
+ * 	which locations have positive or negative points.
+ * 
+ * I acknowledge all content contained herein is my own original work.
+ */
+#ifndef __SCOREDISPLAYMC1_H__
+#define __SCOREDISPLAYMC1_H__
 
 #include "general.h"
 #include "PinMap.h"
@@ -33,7 +45,7 @@ int ScoreDisplay_Tick(int state)
     switch(state)
     {
         case Score_Init:
-            blackScore = 0;
+            whiteScore = 0;
             break;
 
         case Score_Display:
@@ -49,7 +61,7 @@ int ScoreDisplay_Tick(int state)
 
 void scoreDisplay()
 {
-    switch(blackScore)
+    switch(whiteScore)
     {
          case 0	:	PORTA = 0x7E;
 					break;
@@ -76,4 +88,4 @@ void scoreDisplay()
     }
 }
 
-#endif //__SCOREDISPLAYMC2_H__
+#endif //__SCOREDISPLAYMC1_H__

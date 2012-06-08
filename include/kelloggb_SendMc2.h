@@ -1,14 +1,26 @@
-#ifndef __SENDMC1_H__
-#define __SENDMC1_H__
+/*
+ * kelloggb_SendMc2.h - 06/08/2012
+ * Name & E-mail: Benjamin Kellogg kelloggb@cs.ucr.edu
+ * CS Login: kelloggb
+ * Partner(s) Name & E-mail: Gabriel Limon glimo002@ucr.edu
+ * Lab Section: 021
+ * Assignment: Lab Project
+ * Project Description: This game is based off of chess, but is more like guessing 
+ * 	which locations have positive or negative points.
+ * 
+ * I acknowledge all content contained herein is my own original work.
+ */
+#ifndef __SENDMC2_H__
+#define __SENDMC2_H__
 
 #include "general.h"
-#include "QueueMc1.h"
+#include "QueueMc2.h"
 
 enum SendProducer_States { SP_Init, SP_Gen };
 
 int SendProducer_SMTick(int state) 
 {	
-	unsigned char msg = '?';
+	static unsigned char i = 0;
 	
 	/*State machine transitions*/
 	switch (state) 
@@ -33,7 +45,15 @@ int SendProducer_SMTick(int state)
 			break;
 
 		case SP_Gen:
-			push_s1queue(msg);
+			if(key != '\0')
+			{
+				sound_on = 1;
+				push_s2queue(key);
+			}
+			else
+			{
+				sound_on = 0;
+			}
 			break;
 
 		default:
@@ -52,14 +72,14 @@ int SendConsumer_SMTick(int state)
 	switch (state) 
 	{
 		case SC_Init_Wait: /* Init */
-			if ( !s1queue_num_objs || !(UCSRA & (1 << UDRE)) )
+			if ( !s2queue_num_objs || !(UCSRA & (1 << UDRE)) )
             {
 				state = SC_Init_Wait;
 			}
 			else
             {
 				state = SC_dequeue_tx;
-				UDR = pop_s1queue();
+				UDR = pop_s2queue();
 			}
 			break;
 
@@ -95,4 +115,4 @@ int SendConsumer_SMTick(int state)
 	return state;
 }
 
-#endif //__SENDMC1_H__
+#endif //__SENDMC2_H__
