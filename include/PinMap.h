@@ -4,12 +4,12 @@
 /********************* Shift Register Pin Map *********************/
 
 // LED Matrix SR for rows
-#define SR_ROW_PORT		PORTA
-#define SR_ROW_DDR		DDRA
+#define SR_ROW_PORT		PORTC
+#define SR_ROW_DDR		DDRC
 
-#define SR_ROW_SER		PA0
-#define SR_ROW_RCLK		PA1
-#define SR_ROW_SRCLK	PA2
+#define SR_ROW_SER		PC3
+#define SR_ROW_RCLK		PC4
+#define SR_ROW_SRCLK	PC5
 
 // LED Matrix SR for columns
 #define SR_COL_PORT		PORTB
@@ -20,22 +20,26 @@
 #define SR_COL_SRCLK	PB2
 
 // SR for piece
-#define SR_PIECE_PORT	PORTC
-#define SR_PIECE_DDR	DDRC
+#define SR_PIECE_PORT	PORTD
+#define SR_PIECE_DDR	DDRD
 
-#define SR_PIECE_SER	PC0
-#define SR_PIECE_RCLK	PC1
-#define SR_PIECE_SRCLK	PC2
-
-// SR for score
-#define SR_SCORE_PORT	PORTA
-#define SR_SCORE_DDR	DDRA
-
-#define SR_SCORE_SER	PA0
-#define SR_SCORE_RCLK	PA1
-#define SR_SCORE_SRCLK	PA2
+#define SR_PIECE_SER	PD2
+#define SR_PIECE_RCLK	PD3
+#define SR_PIECE_SRCLK	PD4
 
 /******************************************************************/
+/********************* 7-Seg Pin Map *********************/
+
+#define WSEG_PORT	PORTA
+#define BSEG_PORT	PORTA
+
+/*********************************************************/
+/********************* Sound Pin Map *********************/
+
+#define SOUND_PORT	PORTA
+#define SOUND_PIN	7
+
+/*********************************************************/
 
 /********************* LCD Pin Map *********************/
 

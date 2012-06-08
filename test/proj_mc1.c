@@ -5,11 +5,12 @@
  *  Author: Embedded Systems Lab
  */ 
 
-#include "../../include/ShiftRegMc1.h"
+#include "../../include/ShiftReg.h"
 #include "../../include/RecvMc1.h"
 #include "../../include/LedMatrixSM.h"
 #include "../../include/MoveSM.h"
 #include "../../include/PieceDisplaySM.h"
+#include "../../include/ScoreDisplayMC1.h"
 
 /******** Timer functions ********************************************/
 // TimerISR() sets this to 1. C programmer should clear to 0.
@@ -162,7 +163,7 @@ void init()
 	
 	SRInit();
 	initUSART();
-	synchWait();
+	//synchWait();
 }
 
 int main(void)
@@ -177,12 +178,13 @@ int main(void)
 	unsigned long int RC_period_calc = 10;
 	//Period for LED Matrix
 	unsigned long int LM_period_calc = 2;
-	//Period for Move
+	//Period for Move 
 	unsigned long int Move_period_calc = 8;
     //Period for Piece Display
 	unsigned long int PieceDisplay_period_calc = 8;
+    //Period for Score Display
+    unsigned long int ScoreDisplay_period_calc = 8;
     
-
 	//Calculating GCD
 	unsigned long int tmpGCD = 1;
 	tmpGCD = findGCD(RC_period_calc, RP_period_calc);
@@ -190,6 +192,7 @@ int main(void)
 	tmpGCD = findGCD(tmpGCD, LM_period_calc);
 	tmpGCD = findGCD(tmpGCD, Move_period_calc);
     tmpGCD = findGCD(tmpGCD, PieceDisplay_period_calc);
+    tmpGCD = findGCD(tmpGCD, ScoreDisplay_period_calc);
 
 	//Greatest common divisor for all tasks or smallest time unit for tasks.
 	unsigned long int GCD = tmpGCD;
@@ -201,12 +204,13 @@ int main(void)
 	unsigned long int LM_period = LM_period_calc/GCD;
 	unsigned long int Move_period = Move_period_calc/GCD;
     unsigned long int PieceDisplay_period = PieceDisplay_period_calc / GCD;
+    unsigned long int ScoreDisplay_period = ScoreDisplay_period_calc / GCD;
     
 
 	/*Declare an array of tasks and an integer containing the number of tasks in
 	our system*/
-	static task task1, task2, task3, task4, task5, task6, task7, task8; /*Add or delete tasks as necessary*/
-	task *tasks[] = { &task1, &task2, &task3, &task4, &task5, &task6, &task7, &task8 };
+	static task task1, task2, task3, task4, task5, task6, task7, task8, task9; /*Add or delete tasks as necessary*/
+	task *tasks[] = { &task1, &task2, &task3, &task4, &task5, &task6, &task7, &task8, &task9 };
 	const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
 	
 	//SR Col
@@ -245,7 +249,7 @@ int main(void)
 	task6.elapsedTime = LM_period;//Task current elasped time.
 	task6.TickFct = &LM_Tick;//Function pointer for the tick.
 	
-	//Move
+	/Move/
 	task7.state = -1;//Task initial state.
 	task7.period = Move_period;//Task Period.
 	task7.elapsedTime = Move_period;//Task current elasped time.
@@ -256,6 +260,12 @@ int main(void)
 	task8.period = PieceDisplay_period;//Task Period.
 	task8.elapsedTime = PieceDisplay_period;//Task current elasped time.
 	task8.TickFct = &PieceDisplay_Tick;//Function pointer for the tick.
+
+    //Score Display
+	task9.state = -1;//Task initial state.
+	task9.period = ScoreDisplay_period;//Task Period.
+	task9.elapsedTime = ScoreDisplay_period;//Task current elasped time.
+	task9.TickFct = &ScoreDisplay_Tick;//Function pointer for the tick.
 
 	//Set the timer and turn it on
 	TimerSet(GCD);

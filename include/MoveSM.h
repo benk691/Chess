@@ -3,8 +3,8 @@
 
 #include "general.h"
 
-enum Move_States { Move_Wait, Move_SetRow, Move_SetCol, Move_Clear, 
-				   Move_Piece, Move_Select } Move_State;
+enum Move_States { Move_Wait, Move_SetRow, Move_SetCol, Move_Clear,
+Move_Piece, Move_Select } Move_State;
 
 typedef struct
 {
@@ -29,9 +29,9 @@ int Move_Tick(int state)
     switch(state)
     {
         case -1 :
-			turn = WHITE;
-			Move_RowSend = 0;
-			Move_ColSend = 0;
+            turn = WHITE;
+            Move_RowSend = 0;
+            Move_ColSend = 0;
             move.col = 0;
             move.row = 0;
             move.cSet = 0;
@@ -86,7 +86,7 @@ int Move_Tick(int state)
             break;
 
         case Move_SetRow:
-			Move_RowSend = 0;
+Move_RowSend = 0;
             if(!select)
             {
                 move.rSet = 1;
@@ -99,7 +99,7 @@ int Move_Tick(int state)
             break;
 
         case Move_SetCol:
-			Move_ColSend = 0;
+Move_ColSend = 0;
             if(!select)
             {
                 move.cSet = 1;
@@ -129,12 +129,12 @@ int Move_Tick(int state)
     //Actions
     switch(state)
     {
-        case -1 :    break;
+        case -1 : break;
 
-        case Move_Wait  :   break;
+        case Move_Wait : break;
 
         case Move_SetRow:
-			if(!select)
+if(!select)
             {
                 move.row = Move_Row;
             }
@@ -145,7 +145,7 @@ int Move_Tick(int state)
             break;
 
         case Move_SetCol:
-			if(!select)
+if(!select)
             {
                 move.col = Move_Col;
             }
@@ -156,14 +156,14 @@ int Move_Tick(int state)
             break;
 
         case Move_Piece:
-			move.row =  (move.row - (int)('a'));
-			//select = !select;
+move.row = (move.row - (int)('a'));
+//select = !select;
             break;
 
         case Move_Select:
-            piece.row =  (piece.row - (int)('a'));
-			selection(piece);
-			//select = !select;
+            piece.row = (piece.row - (int)('a'));
+selection(piece);
+//select = !select;
             break;
 
         case Move_Clear:
@@ -182,64 +182,64 @@ void selection(Move m)
     switch(turn)
     {
         case WHITE:
-			if(m.col == 2)
-			{
-				col[ m.row ] = (col[ m.col - 1 ] | (0x00FE & (col[ m.col - 1 ] >> 8)));
-			}
-			else if(m.col == 1)
-			{
-				col[ m.row ] = (col[ m.col - 1 ] | (0x00FD & (col[ m.col - 1 ] >> 8)));
-			}
-			else
-			{
-				col[ m.row ] = 0xABCD;
-			}				
+            if(m.col == 2)
+            {
+                col[ m.row ] = (col[ m.col - 1 ] | (0x00FE & (col[ m.col - 1 ] >> 8)));
+            }
+            else if(m.col == 1)
+            {
+                col[ m.row ] = (col[ m.col - 1 ] | (0x00FD & (col[ m.col - 1 ] >> 8)));
+            }
+            else
+            {
+                col[ m.row ] = 0xABCD;
+            }
             break;
 
         case BLACK:
-			col[ m.row ] &= 0xFF00;
-            break;
+            col[ m.row ] &= 0xFF00;
+                    break;
 
         default:
             break;
     }
-	
-	if(m.col == 2)
-	{
-		piece = PAWN;
-	}
-	else
-	{
-		switch(m.row)
-		{
-			case 0:
-			case 7:
-				piece = ROOK;
-				break;
-				
-			case 1:
-			case 6:
-				piece = KNIGHT;
-				break;
-				
-			case 2:
-			case 5:
-				piece = BISHOP;
-				break;
-				
-			case 3:
-				piece = QUEEN;
-				break;
-			
-			case 4:
-				piece = KING;
-				break;
-				
-			default:
-				piece = NONE;
-				break;
-		}
-	}
+
+    if(m.col == 2)
+    {
+        piece = PAWN;
+    }
+    else
+    {
+        switch(m.row)
+        {
+            case 0:
+            case 7:
+            piece = ROOK;
+            break;
+
+            case 1:
+            case 6:
+            piece = KNIGHT;
+            break;
+
+            case 2:
+            case 5:
+            piece = BISHOP;
+            break;
+
+            case 3:
+            piece = QUEEN;
+            break;
+
+            case 4:
+            piece = KING;
+            break;
+
+            default:
+            piece = NONE;
+            break;
+        }
+    }
 }
 
 #endif //__MOVESM_H__

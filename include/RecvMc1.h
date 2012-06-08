@@ -103,13 +103,13 @@ int RecvConsumer_SMTick(int state)
 			
 			if(c >= 'a' && c <= 'h')
 			{
-				Move_Row = c;
-				Move_RowSend = 1;
+				Select_Row = c;
+				Select_RowSend = 1;
 			}
 			else if(c >= 1 && c <= 8)
 			{
-				Move_Col = c;
-				Move_ColSend = 1;
+				Select_Col = c;
+				Select_ColSend = 1;
 			}
 			break;
 

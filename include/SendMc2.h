@@ -35,7 +35,12 @@ int SendProducer_SMTick(int state)
 		case SP_Gen:
 			if(key != '\0')
 			{
+				sound_on = 1;
 				push_s2queue(key);
+			}
+			else
+			{
+				sound_on = 0;
 			}
 			break;
 

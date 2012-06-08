@@ -41,11 +41,11 @@ int PieceDisplay_Tick(int state)
 
         case Piece_Display:
 			pieceDisplay();
-			if(pieceData != oldData)
-			{
-				oldData = pieceData;
+			//if(pieceData != oldData)
+			//{
+			//	oldData = pieceData;
 				SR_PieceSend = 1;
-			}			
+			//}			
             break;
 
         default :   break;
@@ -72,9 +72,7 @@ void pieceDisplay()
             break;
 			
 		case BISHOP : 
-            pieceData = //0x39C2; //0011 1001 1100 0010
-						//0xFE42; //1111 1110 0100 0010
-						0x43C2; //0100 0011 1100 0010
+            pieceData = 0x43C2; //0100 0011 1100 0010
             break;
 			
 		case ROOK : 

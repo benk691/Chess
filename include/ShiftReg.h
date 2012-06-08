@@ -1,5 +1,5 @@
-#ifndef __SHIFTREGMC1_H__
-#define __SHIFTREGMC1_H__
+#ifndef __SHIFTREG_H__
+#define __SHIFTREG_H__
 
 #include "ShiftRegRowSM.h"
 #include "ShiftRegColSM.h"
@@ -13,4 +13,4 @@ void SRInit()
     SR_PIECE_DDR |= ((1 << SR_PIECE_SRCLK) | (1 << SR_PIECE_RCLK) | (1 << SR_PIECE_SER));
 }
 
-#endif //__SHIFTREGMC1_H__
+#endif //__SHIFTREG_H__

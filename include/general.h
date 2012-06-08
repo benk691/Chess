@@ -17,11 +17,16 @@ static unsigned long colData = 0x0000;
 
 static unsigned long pieceData = 0x0000;
 
-static unsigned long whiteScore = 0x0000;
-static unsigned long blackScore = 0x0000;
-static unsigned long scoreData = 0x0000;
+static unsigned char whiteScore = 0;
+static unsigned char blackScore = 0;
 
 static unsigned char reset = 0;
+static unsigned char sound_on = 0;
+
+static unsigned char Select_Row = 0;
+static unsigned char Select_Col = 0;
+static unsigned char Select_RowSend = 0;
+static unsigned char Select_ColSend = 0;
 
 static unsigned char Move_Row = 0;
 static unsigned char Move_Col = 0;
@@ -31,7 +36,6 @@ static unsigned char Move_ColSend = 0;
 static unsigned char SR_RowSend = 0;
 static unsigned char SR_ColSend = 0;
 static unsigned char SR_PieceSend = 0;
-static unsigned char SR_ScoreSend = 0;
 
 static unsigned char LM_enable_unique = 0;
 static unsigned char LM_unique_row = 0;
