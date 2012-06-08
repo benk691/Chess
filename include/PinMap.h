@@ -1,31 +1,26 @@
 #ifndef __PINMAP_H__
 #define __PINMAP_H__
 
+/********************* SPI Pin Map *********************/
+
+#define SPI_DDR	    DDRB
+#define SPI_MOSI    5
+#define SPI_SCK     7
+
+/*******************************************************/
 /********************* Shift Register Pin Map *********************/
 
 // LED Matrix SR for rows
 #define SR_ROW_PORT		PORTC
-#define SR_ROW_DDR		DDRC
-
-#define SR_ROW_SER		PC3
-#define SR_ROW_RCLK		PC4
-#define SR_ROW_SRCLK	PC5
+#define SR_ROW_RCLK		4
 
 // LED Matrix SR for columns
 #define SR_COL_PORT		PORTB
-#define SR_COL_DDR		DDRB
-
-#define SR_COL_SER		PB0
-#define SR_COL_RCLK		PB1
-#define SR_COL_SRCLK	PB2
+#define SR_COL_RCLK		1
 
 // SR for piece
 #define SR_PIECE_PORT	PORTD
-#define SR_PIECE_DDR	DDRD
-
-#define SR_PIECE_SER	PD2
-#define SR_PIECE_RCLK	PD3
-#define SR_PIECE_SRCLK	PD4
+#define SR_PIECE_RCLK	3
 
 /******************************************************************/
 /********************* 7-Seg Pin Map *********************/
