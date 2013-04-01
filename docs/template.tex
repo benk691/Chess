@@ -1,0 +1,194 @@
+%\usepackage{geometry} 			
+\usepackage{fullpage}
+\usepackage{enumerate}
+\usepackage{multirow}
+\usepackage{algorithmic}
+\usepackage{cancel}
+%\usepackage{ifthen}
+%\usepackage{epsfig}
+%\usepackage{epstopdf}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{wasysym}
+\usepackage{textcomp}
+\usepackage{type1cm}
+\usepackage{pifont}
+%\usepackage{ifsym}
+%\usepackage{esvect}
+\usepackage{fontenc}
+%\usepackage{mathdesign}
+%\usepackage{vntex}
+%\usepackage{ulem} %\sout{ <thing to cross out with slash> }
+\usepackage{hyperref}
+\usepackage{graphicx}
+%\usepackage{tikz}
+%\usetikzlibrary{scopes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Dingbats
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+% Format / Shorthand Commands 
+\newcommand{\nl}{\newline}
+\newcommand{\dblnl}{\nl\nl}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\bd}[1]{{\bf{#1}}}
+\newcommand{\atten}[1]{\bd{\ul{#1:}}}
+\newcommand{\important}[1]{\bd{\ul{#1}}}
+\newcommand{\dblquote}[1]{\textquotedblleft #1\textquotedblright}
+\newcommand{\sep}{\noindent\dblnl\line(1,0){500}\dblnl}
+\newcommand{\vsp}{\indent\nl}
+\newcommand{\dvsp}{\indent\dblnl}
+% Basic Equation Commands
+\newcommand{\ds}{\displaystyle}
+\newcommand{\equ}[2]{\ensuremath{#1\hspace{1mm}=\hspace{1mm}#2}}
+\newcommand{\equarrow}[2]{\ensuremath{#1\hspace{1mm}\longrightarrow\hspace{1mm}#2}}
+\newcommand{\add}[2]{\ensuremath{#1\hspace{1mm}+\hspace{1mm}#2}}
+\newcommand{\sub}[2]{\ensuremath{#1\hspace{1mm}-\hspace{1mm}#2}}
+\newcommand{\mult}[2]{\ensuremath{#1\hspace{1mm}\times\hspace{1mm}#2}}
+\newcommand{\dotmult}[2]{\ensuremath{#1\cdot#2}}
+\newcommand{\trig}[2]{\ensuremath{#1\quantity{#2}}}
+\newcommand{\grad}{\ensuremath{\nabla}}
+\newcommand{\union}{\ensuremath{\cup}}
+\newcommand{\intersect}{\ensuremath{\cap}}
+%\newcommand{\approaches}[2]{\ensuremath{#1\hspace{1mm}\rightarrow\hspace{1mm}#2}}
+%\newcommand{\implies}[2]{\ensuremath{#1\hspace{1mm}\rightarrow\hspace{1mm}#2}}
+\newcommand{\limit}[3]{\ensuremath{\displaystyle\lim_{#1 \to #2}#3}}
+\newcommand{\leftdelimeter}{(}
+\newcommand{\rightdelimeter}{)}
+\newcommand{\sqleftdelimeter}{[}
+\newcommand{\sqrightdelimeter}{]}
+\newcommand{\bqleftdelimeter}{\{}
+\newcommand{\bqrightdelimeter}{\}}
+\newcommand{\vqleftdelimeter}{|}
+\newcommand{\vqrightdelimeter}{|}
+\newcommand{\aqleftdelimeter}{<}
+\newcommand{\aqrightdelimeter}{>}
+\newcommand{\rvqleftdelimeter}{.}
+\newcommand{\rvqrightdelimeter}{|}
+\newcommand{\lvqleftdelimeter}{|}
+\newcommand{\lvqrightdelimeter}{.}
+\newcommand{\intleftdelimeter}{.}
+\newcommand{\intrightdelimeter}{|}
+\newcommand{\quantity}[1]{\ensuremath{\left\leftdelimeter#1\right\rightdelimeter}}
+\newcommand{\sqquantity}[1]{\ensuremath{\left\sqleftdelimeter#1\right\sqrightdelimeter}}
+\newcommand{\bqquantity}[1]{\ensuremath{\left\bqleftdelimeter#1\right\bqrightdelimeter}}
+\newcommand{\vqquantity}[1]{\ensuremath{\left\vqleftdelimeter#1\right\vqrightdelimeter}}
+\newcommand{\aqquantity}[1]{\ensuremath{\left\aqleftdelimeter#1\right\aqrightdelimeter}}
+\newcommand{\rvqquantity}[1]{\ensuremath{\left\rvqleftdelimeter#1\right\rvqrightdelimeter}}
+\newcommand{\lvqquantity}[1]{\ensuremath{\left\lvqleftdelimeter#1\right\lvqrightdelimeter}}
+\newcommand{\intquantity}[3]{\ensuremath{\left\intleftdelimeter#1\right\intrightdelimeter^{#2}_{#3}}}
+\newcommand{\abs}[1]{\ensuremath{\vqquantity{#1}}}
+\newcommand{\partialderiv}[2]{\ensuremath{\displaystyle\dfrac{\partial #1}{\partial #2}}}
+\newcommand{\deriv}[2]{\ensuremath{\displaystyle\dfrac{d #1}{d #2}}}
+\newcommand{\setsize}[1]{\ensuremath{\left\vert #1 \right\vert}}
+% Shorthand Basic Commands
+\newcommand{\f}[2]{\trig{#1}{#2}}
+\newcommand{\q}[1]{\quantity{#1}}
+\newcommand{\sq}[1]{\sqquantity{#1}}
+\newcommand{\bq}[1]{\bqquantity{#1}}
+\newcommand{\vq}[1]{\vqquantity{#1}}
+\newcommand{\aq}[1]{\vqquantity{#1}}
+\newcommand{\rvq}[1]{\rvqquantity{#1}}
+\newcommand{\lvq}[1]{\lvqquantity{#1}}
+\newcommand{\iq}[1]{\intquantity{#1}}
+\newcommand{\pd}[2]{\partialderiv{#1}{#2}}
+% Boolean Commands
+\newcommand{\notvar}[1]{\ensuremath{\bar{#1}}}
+\newcommand{\equalvar}[2]{\ensuremath{#1} \ensuremath{\equiv} \ensuremath{#2}}
+\newcommand{\notequalvar}[2]{\ensuremath{#1} \ensuremath{\neq} \ensuremath{#2}}
+\newcommand{\ltvar}[2]{\ensuremath{#1} \ensuremath{<} \ensuremath{#2}}
+\newcommand{\levar}[2]{\ensuremath{#1} \ensuremath{\le} \ensuremath{#2}}
+\newcommand{\gtvar}[2]{\ensuremath{#1} \ensuremath{>} \ensuremath{#2}}
+\newcommand{\gevar}[2]{\ensuremath{#1} \ensuremath{\ge} \ensuremath{#2}}
+% Current Units Commands
+\newcommand{\distanceunit}{\ensuremath{m}}
+\newcommand{\massunit}{\ensuremath{g}}
+\newcommand{\timeunit}{\ensuremath{s}}
+\newcommand{\forceunit}{\ensuremath{N}}
+\newcommand{\energyunit}{\ensuremath{J}}
+\newcommand{\angularunit}{\ensuremath{d}} % d or r
+% New Units Commands
+\newcommand{\otherdistanceunit}{\ensuremath{km}}
+\newcommand{\othermassunit}{\ensuremath{lb}}
+\newcommand{\othertimeunit}{\ensuremath{yr}}
+\newcommand{\otherforceunit}{\ensuremath{lb}}
+\newcommand{\otherangularunit}{\ensuremath{rev}}
+% Current Boolean Value Commands
+\newcommand{\distanceisnumerator}{0}
+\newcommand{\massisnumerator}{0}
+\newcommand{\energyisnumerator}{0}
+\newcommand{\timeisnumerator}{0}
+\newcommand{\distanceisdenominator}{0}
+% Current Measurement Commands
+\newcommand{\degangle}[1]{\ensuremath{#1^\circ}}
+\newcommand{\radangle}[1]{\ensuremath{#1rad}}
+\newcommand{\mangle}[1]{\ifthenelse{\equal{\angularunit}{d}}{\degangle{#1}}{}\ifthenelse{\equal{\angularunit}{r}}{\radangle{#1}}{}}
+\newcommand{\distance}[1]{\ensuremath{#1\distanceunit}}
+\newcommand{\mass}[1]{\ensuremath{#1\massunit}}
+\newcommand{\energy}[1]{\ensuremath{#1\energyunit}}
+\newcommand{\work}[1]{\ensuremath{#1\energyunit}}
+\newcommand{\clocktime}[1]{\ensuremath{#1\timeunit}}
+\newcommand{\velocity}[1]{\ensuremath{#1\dfrac{\distanceunit}{\timeunit}}}
+\newcommand{\masschange}[1]{\ensuremath{#1\dfrac{\massunit}{\timeunit}}}
+\newcommand{\angularvelocity}[1]{\ensuremath{#1\dfrac{\angularunit}{\timeunit}}}
+\newcommand{\angularacceleration}[1]{\ensuremath{#1\dfrac{\radangle}{\timeunit^2}}}
+\newcommand{\angularmomentum}[1]{\ensuremath{#1\dfrac{\dotmult{\massunit}{\distanceunit^2}}{\timeunit}}}
+\newcommand{\rev}[1]{\ensuremath{#1rev}}
+\newcommand{\torque}[1]{\ensuremath{#1\dotmult{\forceunit}{\distanceunit}}}
+\newcommand{\inertia}[1]{\ensuremath{#1\dotmult{\massunit}{\distanceunit^2}}}
+\newcommand{\momentum}[1]{\ensuremath{#1\dfrac{\dotmult{\massunit}{\distanceunit}}{\timeunit}}}
+\newcommand{\impulse}[1]{\ensuremath{#1\dfrac{\dotmult{\massunit}{\distanceunit}}{\timeunit}}}
+\newcommand{\acceleration}[1]{\ensuremath{#1\dfrac{\distanceunit}{\timeunit^2}}}
+\newcommand{\density}[1]{\ensuremath{#1\dfrac{\massunit}{\distanceunit^3}}}
+\newcommand{\springconst}[1]{\ensuremath{#1\dfrac{\forceunit}{\distanceunit}}}
+\newcommand{\force}[1]{\ensuremath{#1\forceunit}}
+\newcommand{\forcesum}[1]{\ensuremath{\displaystyle\sum #1}}
+\newcommand{\Gconst}{\ensuremath{\mult{6.67}{10^{-11}}\dfrac{\dotmult{\forceunit}{\distanceunit^{2}}}{\massunit^{2}}}}
+% New Measurement Commands
+\newcommand{\otherdistance}[1]{\ensuremath{#1\otherdistanceunit}}
+\newcommand{\othermass}[1]{\ensuremath{#1\othermassunit}}
+\newcommand{\otherclocktime}[1]{\ensuremath{#1\othertimeunit}}
+\newcommand{\othervelocity}[1]{\ensuremath{#1\dfrac{\otherdistanceunit}{\othertimeunit}}}
+\newcommand{\otheracceleration}[1]{\renewcommand{\othertimeisdenominator}{1}\ensuremath{#1\dfrac{\otherdistanceunit}{\othertimeunit^2}}}
+\newcommand{\otherdensity}[1]{\ensuremath{#1\dfrac{\othermassunit}{\otherdistanceunit^3}}}
+\newcommand{\otherforce}[1]{\renewcommand{\othertimeisdenominator}{1}\ensuremath{#1\otherforceunit}}
+\newcommand{\otherangularvelocity}[1]{\ensuremath{#1\dfrac{\otherangularunit}{\othertimeunit}}}
+\newcommand{\otherangularacceleration}[1]{\ensuremath{#1\dfrac{\otherangularunit}{\othertimeunit^2}}}
+\newcommand{\othertorque}[1]{\ensuremath{#1\dotmult{\otherforceunit}{\otherdistanceunit}}}
+% Algebraic Equations Commands
+\newcommand{\quadraticformula}[3]{\ensuremath{\dfrac{-#2 \pm \sqrt{\sub{\quantity{#2}^2}{ - 4\quantity{#1}\quantity{#3}}}}{2\quantity{#1}}}}
+% 1D Vector Equations Commands
+\newcommand{\magnitude}[1]{\ensuremath{\vq{\vq{#1}}}}
+\newcommand{\magn}[1]{\ensuremath{\magnitude{#1}}}
+\newcommand{\norm}[1]{\ensuremath{\magn{#1}}}
+\newcommand{\ih}{\ensuremath{\hat{\imath}}}
+\newcommand{\jh}{\ensuremath{\hat{\jmath}}}
+\newcommand{\kh}{\ensuremath{\hat{k}}}
+\newcommand{\vectorcomponentx}[1]{\ensuremath{#1\hat{\imath}}}
+\newcommand{\vectorcomponenty}[1]{\ensuremath{#1\hat{\jmath}}}
+\newcommand{\vectorcomponentz}[1]{\ensuremath{#1\hat{k}}}
+% 2D Vector Equations Commands
+\newcommand{\vectorcomptwoxy}[2]{\ensuremath{\add{#1\hat{\imath}}{#2\hat{\jmath}}}}
+\newcommand{\vectorcomptwosubxy}[2]{\ensuremath{\sub{#1\hat{\imath}}{#2\hat{\jmath}}}}
+\newcommand{\vectorcomptwoxz}[2]{\ensuremath{\add{#1\hat{\imath}}{#2\hat{k}}}}
+\newcommand{\vectorcomptwosubxz}[2]{\ensuremath{\sub{#1\hat{\imath}}{#2\hat{k}}}}
+\newcommand{\vectorcomptwoyz}[2]{\ensuremath{\add{#1\hat{\jmath}}{#2\hat{k}}}}
+\newcommand{\vectorcomptwosubyz}[2]{\ensuremath{\sub{#1\hat{\jmath}}{#2\hat{k}}}}
+% 3D Vector Equations Commands
+\newcommand{\vectorcompthree}[3]{\ensuremath{\add{#1\hat{\imath}}{\add{#2\hat{\jmath}}{#3\hat{k}}}}}
+\newcommand{\vectorcompthreesubf}[3]{\ensuremath{\sub{#1\hat{\imath}}{\add{#2\hat{\jmath}}{#3\hat{k}}}}}
+\newcommand{\vectorcompthreesubt}[3]{\ensuremath{\add{#1\hat{\imath}}{\sub{#2\hat{\jmath}}{#3\hat{k}}}}}
+\newcommand{\vectorcompthreesubb}[3]{\ensuremath{\sub{#1\hat{\imath}}{\sub{#2\hat{\jmath}}{#3\hat{k}}}}}
+% Vector Shorthand
+\newcommand{\vectorshd}[1]{\ensuremath{\quantity{#1}}}
+\newcommand{\vectorshdd}[2]{\ensuremath{\quantity{#1,\hspace{1mm}#2}}}
+\newcommand{\vectorshddd}[3]{\ensuremath{\quantity{#1,\hspace{1mm}#2,\hspace{1mm}#3}}}
+\newcommand{\vectorshdddd}[4]{\ensuremath{\quantity{#1,\hspace{1mm}#2,\hspace{1mm}#3,\hspace{1mm}#4}}}
+\newcommand{\vectorshddddd}[5]{\ensuremath{\quantity{#1,\hspace{1mm}#2,\hspace{1mm}#3,\hspace{1mm}#4,\hspace{1mm}#5}}}
+% Other Vector Stuff
+\newcommand{\vectorproj}[2]{\ensuremath{proj_{#1}#2}}

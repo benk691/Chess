@@ -1,0 +1,126 @@
+           
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%  LETTERS 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\barx}{{\bar x}}
+\newcommand{\bary}{{\bar y}}
+\newcommand{\barz}{{\bar z}}
+\newcommand{\bart}{{\bar t}}
+
+\newcommand{\bfP}{{\bf{P}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                                                                
+\newcommand{\parend}[1]{{\left( #1  \right) }}
+\newcommand{\spparend}[1]{{\left(\, #1  \,\right) }}
+\newcommand{\angled}[1]{{\left\langle #1  \right\rangle }}
+\newcommand{\brackd}[1]{{\left[ #1  \right] }}
+\newcommand{\spbrackd}[1]{{\left[\, #1  \,\right] }}
+\newcommand{\braced}[1]{{\left\{ #1  \right\} }}
+\newcommand{\leftbraced}[1]{{\left\{ #1  \right. }}
+\newcommand{\floor}[1]{{\left\lfloor #1\right\rfloor}}
+\newcommand{\ceil}[1]{{\left\lceil #1\right\rceil}}
+\newcommand{\barred}[1]{{\left|#1\right|}}
+\newcommand{\doublebarred}[1]{{\left|\left|#1\right|\right|}}
+\newcommand{\spaced}[1]{{\, #1\, }}
+\newcommand{\suchthat}{{\spaced{|}}}
+\newcommand{\numof}{{\sharp}}
+\newcommand{\assign}{{\,\leftarrow\,}}
+\newcommand{\myaccept}{{\mbox{\tiny accept}}}
+\newcommand{\myreject}{{\mbox{\tiny reject}}}
+\newcommand{\blanksymbol}{{\sqcup}}
+                                                                                                                         
+\newcommand{\veps}{{\varepsilon}}
+\newcommand{\Sigmastar}{{\Sigma^\ast}}
+                           
+\newcommand{\half}{\mbox{$\frac{1}{2}$}}    
+\newcommand{\threehalfs}{\mbox{$\frac{3}{2}$}}   
+\newcommand{\domino}[2]{\left[\frac{#1}{#2}\right]}  
+
+\newcommand{\naturals}{{\mathbb{N}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%% for homeworks
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\student}[2]{%
+{\noindent\Large{ \emph{#1} SID {#2} } \hfill} \vskip 0.1in}
+
+\newcommand{\assignment}[1]{\medskip\centerline{\large\bf CS 111 ASSIGNMENT {#1}}}
+
+\newcommand{\duedate}[1]{{\centerline{due {#1}\medskip}}}     
+
+\newcounter{problemnumber}                                                                                 
+
+\newenvironment{problem}{{\vskip 0.1in \noindent
+              \bf Problem~\addtocounter{problemnumber}{1}\arabic{problemnumber}:}}{}
+
+\newcounter{solutionnumber}
+
+\newenvironment{solution}{{\vskip 0.1in \noindent
+             \bf Solution~\addtocounter{solutionnumber}{1}\arabic{solutionnumber}:}}
+				{\ \newline\smallskip\lineacross\smallskip}
+
+\newcommand{\lineacross}{\noindent\mbox{}\hrulefill\mbox{}}
+
+\newcommand{\decproblem}[3]{%
+\medskip
+\noindent
+\begin{list}{\hfill}{\setlength{\labelsep}{0in}
+                       \setlength{\topsep}{0in}
+                       \setlength{\partopsep}{0in}
+                       \setlength{\leftmargin}{0in}
+                       \setlength{\listparindent}{0in}
+                       \setlength{\labelwidth}{0.5in}
+                       \setlength{\itemindent}{0in}
+                       \setlength{\itemsep}{0in}
+                     }
+\item{{{\sc{#1}}:}}
+                \begin{list}{\hfill}{\setlength{\labelsep}{0.1in}
+                       \setlength{\topsep}{0in}
+                       \setlength{\partopsep}{0in}
+                       \setlength{\leftmargin}{0.5in}
+                       \setlength{\labelwidth}{0.5in}
+                       \setlength{\listparindent}{0in}
+                       \setlength{\itemindent}{0in}
+                       \setlength{\itemsep}{0in}
+                       }
+                \item{{\em Instance:\ }}{#2}
+                \item{{\em Query:\ }}{#3}
+                \end{list}
+\end{list}
+\medskip
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% for quizzes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\quizheader}{ {\large NAME: \hskip 3in SID:\hfill}
+                                \newline\lineacross \medskip }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% for final
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\namespace}{\noindent{\Large NAME: \hfill SID:\hskip 1.5in\ }\\\medskip\noindent\mbox{}\hrulefill\mbox{}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% for notes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{claim}[theorem]{Claim}
+
+\newenvironment{proof}{{\it \bf \underline{Proof:}\/}}{$\Box$\vskip 0.1in}
+
