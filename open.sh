@@ -1,71 +1,38 @@
 #!/bin/bash
 
-#################### Key 1st Arg ####################
-# b # open backup program files                     #
-#####################################################
-# c # open chess program files                      #
-#####################################################
-# m # open Makefiles                                #
-#####################################################
+##################################################
+# Options:
+#   Note that if you are note doing your text 
+#   editor in the terminal then you should specify
+#   the program to fork with & at the end
+#   -i: will also open init files, by default init
+#       files are not opened
+##################################################
 
-#################### Key 2nd Arg ####################
-# Number # chess version number                     #
-#####################################################
-# c      # current chess version                    #
-#####################################################
+# How to use the program
+USEAGE="Usage: $0 [-i] [<text editor/IDE> [text editor args]]"
+# The text editor
+TE="vim"
+# Regex expression for opening files
+RE="[a-zA-Z0-9]*.py"
 
-USEAGE="Usage: $0 [b|c|m] [chess version number|c]"
-
-if [ -z "$2" ]; then
-    echo ${USEAGE}
-    exit
-fi
-
-CHOICE=$1
-BACKUP="b"
-CHESS="c"
-MAKE="m"
-
-if [ $CHOICE == $BACKUP ]; then
-    BACKUP_EXE='backup.sh'
-    BACKUP_PROG_DIR='backup_program'
-    COMMON_DIR="${BACKUP_PROG_DIR}/common"
-    LANGUAGE_DIR="${BACKUP_PROG_DIR}/modules/languages"
-    PROCESSOR_DIR="${BACKUP_PROG_DIR}/modules/processors"
-    BIN_DIR='bin'
-
-exec gvim ${BACKUP_EXE} ${BACKUP_PROG_DIR}/*.sh ${COMMON_DIR}/*.py ${LANGUAGE_DIR}/*.py ${PROCESSOR_DIR}/*.py ${BIN_DIR}/main.cc ${BIN_DIR}/log.xml ${BACKUP_PROG_DIR}/README &
-
-elif [ $CHOICE == $CHESS ]; then
-    if [ $2 == $CHESS ]; then
-        BIN_DIR='bin'
-        
-exec gvim ${BIN_DIR}/*.cc ${BIN_DIR}/*.h &
-
+if [ $# -ge 1 ]; then
+    if [ $1 == "-i" ]; then
+        RE="*.py"
+        shift
+        TE=$@
     else
-        VERSION_DIR="bin/bakup/version_/${2}"
-        
-exec gvim ${VERSION_DIR}/*.cc ${VERSION_DIR}/*.h &
+        TE=$@
     fi
-
-elif [ $CHOICE == $MAKE ]; then
-    BACKUP_PROG_DIR='backup_program'
-    COMMON_DIR="${BACKUP_PROG_DIR}/common"
-    LANGUAGE_DIR="${BACKUP_PROG_DIR}/modules/languages"
-    PROCESSOR_DIR="${BACKUP_PROG_DIR}/modules/processors"
-    BIN_DIR='bin'
-    BACKUP_DIR='bin/backup'
-    BACKUP_MAKEFILE_LIST_STR=""
-
-    for DIR in $(ls ${BACKUP_DIR}); do
-        if [ -d "${BACKUP_DIR}/${DIR}" ]; then
-            BACKUP_MAKEFILE_LIST_STR="${BACKUP_MAKEFILE_LIST_STR} ${BACKUP_DIR}/${DIR}/Makefile"
-        fi
-    done
-    
-    exec gvim Makefile ${BIN_DIR}/Makefile ${BACKUP_MAKEFILE_LIST_STR} ${BACKUP_PROG_DIR}/Makefile ${COMMON_DIR}/Makefile ${LANGUAGE_DIR}/Makefile ${PROCESSOR_DIR}/Makefile &
-
-else
-    echo $USEAGE
-    exit
 fi
+
+LIB_DIR="lib"
+FILE_LIST_STR="$RE bin/${RE} lib/${RE}"
+
+for DIR in $(ls ${LIB_DIR}); do
+    if [ -d "${LIB_DIR}/${DIR}" ]; then
+        FILE_LIST_STR="${FILE_LIST_STR} ${LIB_DIR}/${DIR}/${RE}"
+    fi
+done
+
+exec ${TE} ${FILE_LIST_STR}
